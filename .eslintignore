@@ -1,0 +1,6 @@
+js/**/*.*
+dependencies/**/*.*
+public/**/*.*
+node_modules/**/*.*
+vendor/**/*.*
+assets/**/*.*

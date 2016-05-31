@@ -3,11 +3,11 @@
   "description": "",
   "main": "index.js",
   "authors": [
-    "Thorr Stevens <thorr.stevens@student.howest.be>",
+    "Jesamine Deprez <jesamine.deprez@student.howest.be>",
     "Jasper Van Damme <jasper.van.damme@student.howest.be>"
   ],
   "license": "ISC",
-  "homepage": "https://github.com/jaspervd/thanks-for-the-fish",
+  "homepage": "https://github.com/jaspervd/the-tunnel",
   "moduleType": [
     "node"
   ],

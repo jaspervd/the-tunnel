@@ -2,7 +2,7 @@
 require_once WWW_ROOT . 'dao/DAO.php';
 class GroupsDAO extends DAO {
 	public function selectAll() {
-		$sql = "SELECT * FROM `tt_groups";
+		$sql = "SELECT * FROM `tt_groups`";
 		$qry = $this->pdo->prepare($sql);
 		if($qry->execute()) {
 			return $qry->fetchAll(pdo::FETCH_ASSOC);

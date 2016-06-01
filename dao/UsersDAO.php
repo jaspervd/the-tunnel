@@ -2,7 +2,7 @@
 require_once WWW_ROOT . 'dao/DAO.php';
 class UsersDAO extends DAO {
 	public function selectAll() {
-		$sql = "SELECT * FROM `tt_users";
+		$sql = "SELECT * FROM `tt_users`";
 		$qry = $this->pdo->prepare($sql);
 		if($qry->execute()) {
 			return $qry->fetchAll(pdo::FETCH_ASSOC);

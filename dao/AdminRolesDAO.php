@@ -2,7 +2,7 @@
 require_once WWW_ROOT . 'dao/DAO.php';
 class AdminRolesDAO extends DAO {
 	public function selectAll() {
-		$sql = "SELECT * FROM `tt_admin_roles";
+		$sql = "SELECT * FROM `tt_admin_roles`";
 		$qry = $this->pdo->prepare($sql);
 		if($qry->execute()) {
 			return $qry->fetchAll(pdo::FETCH_ASSOC);

@@ -42,6 +42,19 @@ class GroupsDAO extends DAO {
 		return array();
 	}
 
+	public function update($id, $title, $creator_id, $approved) {
+		$sql = "UPDATE `tt_creations` SET `title` = :title, `creator_id` = :creator_id, `approved` = :approved WHERE `id` = :id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':id', $id);
+		$qry->bindValue(':title', $title);
+		$qry->bindValue(':creator_id', $creator_id);
+		$qry->bindValue(':approved', $approved);
+		if($qry->execute()) {
+			return $this->selectById($id);
+		}
+		return array();
+	}
+
 	public function delete($id) {
 		$sql = "DELETE FROM `tt_groups` WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);

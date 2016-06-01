@@ -9,6 +9,7 @@ require 'vendor/autoload.php';
 require 'dao/AdminRolesDAO.php';
 require 'dao/LikesDAO.php';
 require 'dao/GroupsDAO.php';
+require 'dao/CreationsDAO.php';
 
 $app = new \Slim\App;
 

@@ -10,6 +10,7 @@ require 'dao/AdminRolesDAO.php';
 require 'dao/LikesDAO.php';
 require 'dao/GroupsDAO.php';
 require 'dao/CreationsDAO.php';
+require 'dao/UsersDAO.php';
 
 $app = new \Slim\App;
 

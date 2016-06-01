@@ -20,6 +20,16 @@ class UsersDAO extends DAO {
 		return array();
 	}
 
+	public function selectByGroupId($group_id) {
+		$sql = "SELECT `tt_users`.*, `tt_user_groups`.`user_id` FROM `tt_users` LEFT JOIN `tt_user_groups` ON `tt_users`.`id` = `tt_user_groups`.`user_id` WHERE `tt_user_groups`.`group_id` = :group_id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':group_id', $group_id);
+		if($qry->execute()) {
+			return $qry->fetchAll(pdo::FETCH_ASSOC);
+		}
+		return array();
+	}
+
 	public function selectByInputAndPassword($input, $password) {
 		$sql = "SELECT * FROM `tt_users` WHERE `username` = :input OR `email` = :input";
 		$qry = $this->pdo->prepare($sql);

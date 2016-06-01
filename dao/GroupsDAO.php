@@ -20,7 +20,7 @@ class GroupsDAO extends DAO {
 		return array();
 	}
 
-	public function selectGroupsByUserId($user_id) {
+	public function selectByUserId($user_id) {
 		$sql = "SELECT `tt_groups`.*, `tt_user_groups`.`user_id` FROM `tt_groups` LEFT JOIN `tt_user_groups` ON `tt_groups`.`id` = `tt_user_groups`.`group_id` WHERE `tt_user_groups`.`user_id` = :user_id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':user_id', $user_id);

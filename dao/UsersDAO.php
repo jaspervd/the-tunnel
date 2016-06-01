@@ -20,6 +20,19 @@ class UsersDAO extends DAO {
 		return array();
 	}
 
+	public function selectByInputAndPassword($input, $password) {
+		$sql = "SELECT * FROM `tt_users` WHERE `username` = :input OR `email` = :input";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':input', $input);
+		if($qry->execute()) {
+			$result = $qry->fetch(pdo::FETCH_ASSOC);
+			if(password_verify($password, $result['password'])) {
+				return $result;
+			}
+		}
+		return array();
+	}
+
 	public function insert($username, $password, $email, $firstname, $lastname, $bio) {
 		$sql = "INSERT INTO `tt_users` (`username`, `password`, `email`, `firstname`, `lastname`, `bio`) VALUES (:username, :password, :email, :firstname, :lastname, :bio)";
 		$qry = $this->pdo->prepare($sql);

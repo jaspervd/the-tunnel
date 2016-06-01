@@ -43,7 +43,7 @@ class GroupsDAO extends DAO {
 	}
 
 	public function update($id, $title, $creator_id, $approved) {
-		$sql = "UPDATE `tt_creations` SET `title` = :title, `creator_id` = :creator_id, `approved` = :approved WHERE `id` = :id";
+		$sql = "UPDATE `tt_groups` SET `title` = :title, `creator_id` = :creator_id, `approved` = :approved WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
 		$qry->bindValue(':title', $title);

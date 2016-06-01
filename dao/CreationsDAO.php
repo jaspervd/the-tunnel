@@ -72,7 +72,7 @@ class CreationsDAO extends DAO {
 	}
 
 	public function delete($id) {
-		$sql = "DELETE FROM `tt_groups` WHERE `id` = :id";
+		$sql = "DELETE FROM `tt_creations` WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
 		return $qry->execute();

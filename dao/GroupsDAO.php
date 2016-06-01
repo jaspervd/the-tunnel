@@ -59,6 +59,12 @@ class GroupsDAO extends DAO {
 		$sql = "DELETE FROM `tt_groups` WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
-		return $qry->execute();
+		if($qry->execute()) {
+			$sql = "DELETE FROM `tt_user_groups` WHERE `group_id` = :id";
+			$qry = $this->pdo->prepare($sql);
+			$qry->bindValue(':id', $id);
+			return $qry->execute();
+		}
+		return false;
 	}
 }

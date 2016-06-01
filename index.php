@@ -8,6 +8,7 @@ define('WWW_ROOT', __DIR__ . DS);
 require 'vendor/autoload.php';
 require 'dao/AdminRolesDAO.php';
 require 'dao/LikesDAO.php';
+require 'dao/GroupsDAO.php';
 
 $app = new \Slim\App;
 

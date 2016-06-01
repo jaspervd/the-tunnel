@@ -11,6 +11,7 @@ require 'dao/LikesDAO.php';
 require 'dao/GroupsDAO.php';
 require 'dao/CreationsDAO.php';
 require 'dao/UsersDAO.php';
+require 'dao/ScoresDAO.php';
 
 $app = new \Slim\App;
 

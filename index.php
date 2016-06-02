@@ -274,8 +274,39 @@ $app->delete('/api/groups/{id}', function ($request, $response, $args) {
 	return $response->write(json_encode($group))->withHeader('Content-Type', 'application/json');
 });
 
-// SCORES
+// SCORES -- scores: post delete
 
+$app->get('/api/scores', function ($request, $response, $args) {
+	$scoresDAO = new ScoresDAO();
+	$scores = $scoresDAO->selectAll();
+	$queryParams = $request->getQueryParams();
+	if(!empty($queryParams['creation_id'])) {
+		$scores = $scoresDAO->selectByCreationId($queryParams['creation_id']);
+	} elseif(!empty($queryParams['user_id'])) {
+		$scores = $scoresDAO->selectByUserId($queryParams['user_id']);
+	} else {
+		$scores = $scoresDAO->selectAll();
+	}
+	return $response->write(json_encode($scores))->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/api/scores', function ($request, $response, $args) { // TODO: add session check
+	$scoresDAO = new ScoresDAO();
+	$post = $request->getParsedBody();
+	$score = $groupsDAO->insert($_SESSION['tt_user']['id'], $post['creation_id'], $post['score']);
+	if(empty($score)) {
+		$response = $response->withStatus(404);
+	} else {
+		$response = $response->withStatus(201);
+	}
+	return $response->write(json_encode($score))->withHeader('Content-Type', 'application/json');
+});
+
+$app->delete('/api/scores/{id}', function ($request, $response, $args) {
+	$scoresDAO = new ScoresDAO();
+	$score = $scoresDAO->delete($args['id']);
+	return $response->write(json_encode($score))->withHeader('Content-Type', 'application/json');
+});
 
 //TODO: Check authorization; if unauthenticated: 401
 

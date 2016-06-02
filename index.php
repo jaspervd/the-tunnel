@@ -161,7 +161,7 @@ $app->put('/api/creations/{id}', function ($request, $response, $args) {
 		} if(empty($post['elected'])) {
 			$post['elected'] = $creation['elected'];
 		}
-		$updatedCreation = $usersDAO->update($creation['id'], $_SESSION['tt_user']['id'], $post['title'], $post['info'], $post['image_url'], $post['group_id'], $post['featured'], $post['elected']);
+		$updatedCreation = $creationsDAO->update($creation['id'], $_SESSION['tt_user']['id'], $post['title'], $post['info'], $post['image_url'], $post['group_id'], $post['featured'], $post['elected']);
 		if(empty($updatedCreation)) {
 			$response = $response->withStatus(404);
 		} else {
@@ -177,6 +177,69 @@ $app->delete('/api/creations/{id}', function ($request, $response, $args) {
 	$creationsDAO = new CreationsDAO();
 	$creation = $creationsDAO->delete($args['id']);
 	return $response->write(json_encode($creation))->withHeader('Content-Type', 'application/json');
+});
+
+// GROUPS
+
+$app->get('/api/groups', function ($request, $response, $args) {
+	$groupsDAO = new GroupsDAO();
+	$groups = $creationsDAO->selectAll();
+	$queryParams = $request->getQueryParams();
+	if(!empty($queryParams['user_id'])) {
+		$groups = $groupsDAO->selectByUserId($queryParams['user_id']);
+	} else {
+		$groups = $groupsDAO->selectAll();
+	}
+	return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/api/groups', function ($request, $response, $args) { // TODO: add session check
+	$groupsDAO = new GroupsDAO();
+	$post = $request->getParsedBody();
+	$group = $groupsDAO->insert($post['title'], $post['info'], $_SESSION['tt_user']['id']);
+	if(empty($user)) {
+		$response = $response->withStatus(404);
+	} else {
+		$response = $response->withStatus(201);
+	}
+	return $response->write(json_encode($group))->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/api/groups/{id}', function ($request, $response, $args) {
+	$groupsDAO = new GroupsDAO();
+	$group = $groupsDAO->selectById($args['id']);
+	if(empty($user)) {
+		$response = $response->withStatus(404);
+	} else {
+		$response = $response->withStatus(200);
+	}
+	return $response->write(json_encode($creation))->withHeader('Content-Type', 'application/json');
+});
+
+$app->put('/api/groups/{id}', function ($request, $response, $args) {
+	$groupsDAO = new GroupsDAO();
+	$group = $groupsDAO->selectById($args['id']);
+	if(!empty($group)) {
+		$post = $request->getParsedBody();
+		if(empty($post['approved'])) {
+			$post['approved'] = $group['approved'];
+		}
+		$updatedGroup = $groupsDAO->update($group['id'], $post['title'], $_SESSION['tt_user']['id'], $post['approved']);
+		if(empty($updatedGroup)) {
+			$response = $response->withStatus(404);
+		} else {
+			$response = $response->withStatus(200);
+		}
+	} else {
+		$response = $response->withStatus(404);
+	}
+	return $response->write(json_encode($updatedCreation))->withHeader('Content-Type', 'application/json');
+});
+
+$app->delete('/api/groups/{id}', function ($request, $response, $args) {
+	$groupsDAO = new GroupsDAO();
+	$group = $groupsDAO->delete($args['id']);
+	return $response->write(json_encode($group))->withHeader('Content-Type', 'application/json');
 });
 
 //TODO: Check authorization; if unauthenticated: 401

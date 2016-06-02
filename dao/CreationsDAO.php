@@ -40,21 +40,21 @@ class CreationsDAO extends DAO {
 		return array();
 	}
 
-	public function insert($user_id, $title, $info, $image_url, $group_id = '0') {
+	public function insert($data) {
 		$sql = "INSERT INTO `tt_creations` (`user_id`, `title`, `info`, `image_url`, `group_id`) VALUES (:user_id, :title, :info, :image_url, :group_id)";
 		$qry = $this->pdo->prepare($sql);
-		$qry->bindValue(':user_id', $user_id);
-		$qry->bindValue(':title', $title);
-		$qry->bindValue(':info', $info);
-		$qry->bindValue(':image_url', $image_url);
-		$qry->bindValue(':group_id', $group_id);
+		$qry->bindValue(':user_id', $data['user_id']);
+		$qry->bindValue(':title', $data['title']);
+		$qry->bindValue(':info', $data['info']);
+		$qry->bindValue(':image_url', $data['image_url']);
+		$qry->bindValue(':group_id', $data['group_id']);
 		if($qry->execute()) {
 			return $this->selectById($this->pdo->lastInsertId());
 		}
 		return array();
 	}
 
-	public function update($id, $user_id, $title, $info, $image_url, $group_id) {
+	public function update($data) {
 		$sql = "UPDATE `tt_creations` SET `user_id` = :user_id, `title` = :title, `info` = :info, `image_url` = :image_url, `group_id` = :group_id WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
@@ -96,5 +96,16 @@ class CreationsDAO extends DAO {
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
 		return $qry->execute();
+	}
+
+	public function validate($data) {
+		$errors = array();
+		if(empty($data['title'])) {
+			$errors['title'] = 'Gelieve een titel op te geven';
+		}
+		if(empty($data['info'])) {
+			$errors['info'] = 'Gelieve een korte descriptie te geven';
+		}
+		return $errors;
 	}
 }

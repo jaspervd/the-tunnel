@@ -44,31 +44,31 @@ class UsersDAO extends DAO {
 		return array();
 	}
 
-	public function insert($username, $password, $email, $firstname, $lastname, $bio) {
+	public function insert($data) {
 		$sql = "INSERT INTO `tt_users` (`username`, `password`, `email`, `firstname`, `lastname`, `bio`) VALUES (:username, :password, :email, :firstname, :lastname, :bio)";
 		$qry = $this->pdo->prepare($sql);
-		$qry->bindValue(':username', $username);
-		$qry->bindValue(':password', password_hash($password, PASSWORD_BCRYPT));
-		$qry->bindValue(':email', $email);
-		$qry->bindValue(':firstname', $firstname);
-		$qry->bindValue(':lastname', $lastname);
-		$qry->bindValue(':bio', $bio);
+		$qry->bindValue(':username', $data['username']);
+		$qry->bindValue(':password', password_hash($data['password'], PASSWORD_BCRYPT));
+		$qry->bindValue(':email', $data['email']);
+		$qry->bindValue(':firstname', $data['firstname']);
+		$qry->bindValue(':lastname', $data['lastname']);
+		$qry->bindValue(':bio', $data['bio']);
 		if($qry->execute()) {
 			return $this->selectById($this->pdo->lastInsertId());
 		}
 		return array();
 	}
 
-	public function update($id, $username, $password, $email, $firstname, $lastname, $bio) {
+	public function update($data) {
 		$sql = "UPDATE `tt_users` SET `username` = :username, `password` = :password, `email` = :email, `firstname` = :firstname, `lastname` = :lastname, `bio` = :bio WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
-		$qry->bindValue(':id', $id);
-		$qry->bindValue(':username', $username);
-		$qry->bindValue(':password', password_hash($password, PASSWORD_BCRYPT));
-		$qry->bindValue(':email', $email);
-		$qry->bindValue(':firstname', $firstname);
-		$qry->bindValue(':lastname', $lastname);
-		$qry->bindValue(':bio', $bio);
+		$qry->bindValue(':id', $data['id']);
+		$qry->bindValue(':username', $data['username']);
+		$qry->bindValue(':password', password_hash($data['password'], PASSWORD_BCRYPT));
+		$qry->bindValue(':email', $data['email']);
+		$qry->bindValue(':firstname', $data['firstname']);
+		$qry->bindValue(':lastname', $data['lastname']);
+		$qry->bindValue(':bio', $data['bio']);
 		if($qry->execute()) {
 			return $this->selectById($id);
 		}
@@ -102,5 +102,28 @@ class UsersDAO extends DAO {
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
 		return $qry->execute();
+	}
+
+	public function validate($data) {
+		$errors = array();
+		if(empty($data['username'])) {
+			$errors['username'] = 'Gelieve een gebruikersnaam op te geven';
+		}
+		if(strlen($data['password']) < 7) {
+			$errors['password'] = 'Gelieve een wachtwoord van minstens 7 tekens op te geven';
+		}
+		if(empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+			$errors['email'] = 'Gelieve een geldig e-mailadres op te geven';
+		}
+		if(empty($data['firstname'])) {
+			$errors['firstname'] = 'Gelieve een voornaam op te geven';
+		}
+		if(empty($data['lastname'])) {
+			$errors['lastname'] = 'Gelieve een achternaam op te geven';
+		}
+		if(empty($data['bio'])) {
+			$errors['bio'] = 'Gelieve een korte bio te geven';
+		}
+		return $errors;
 	}
 }

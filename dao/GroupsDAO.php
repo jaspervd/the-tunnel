@@ -31,7 +31,7 @@ class GroupsDAO extends DAO {
 		return array();
 	}
 
-	public function insert($title, $info, $creator_id) {
+	public function insert($data) {
 		$sql = "INSERT INTO `tt_groups` (`title`, `info`, `creator_id`) VALUES (:title, :info, :creator_id)";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':title', $title);
@@ -43,12 +43,13 @@ class GroupsDAO extends DAO {
 		return array();
 	}
 
-	public function update($id, $title, $creator_id) {
-		$sql = "UPDATE `tt_groups` SET `title` = :title, `creator_id` = :creator_id WHERE `id` = :id";
+	public function update($data) {
+		$sql = "UPDATE `tt_groups` SET `title` = :title, `info` = :info, `creator_id` = :creator_id WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
-		$qry->bindValue(':id', $id);
-		$qry->bindValue(':title', $title);
-		$qry->bindValue(':creator_id', $creator_id);
+		$qry->bindValue(':id', $data['id']);
+		$qry->bindValue(':title', $data['title']);
+		$qry->bindValue(':info', $data['info']);
+		$qry->bindValue(':creator_id', $data['creator_id']);
 		if($qry->execute()) {
 			return $this->selectById($id);
 		}
@@ -77,5 +78,16 @@ class GroupsDAO extends DAO {
 			return $qry->execute();
 		}
 		return false;
+	}
+
+	public function validate($data) {
+		$errors = array();
+		if(empty($data['title'])) {
+			$errors['title'] = 'Gelieve een titel op te geven';
+		}
+		if(empty($data['info'])) {
+			$errors['info'] = 'Gelieve een korte descriptie te geven';
+		}
+		return $errors;
 	}
 }

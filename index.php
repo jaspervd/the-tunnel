@@ -61,7 +61,11 @@ $app->get('/api/users', function ($request, $response, $args) {
 $app->post('/api/users', function ($request, $response, $args) {
 	$usersDAO = new UsersDAO();
 	$post = $request->getParsedBody();
-	$user = $usersDAO->insert($post['username'], $post['password'], $post['email'], $post['firstname'], $post['lastname'], $post['bio']);
+	$errors = $usersDAO->validate($post);
+	if(!empty($errors)) {
+		return $response->write(json_encode($errors))->withHeader('Content-Type', 'application/json')->withStatus('422');
+	}
+	$user = $usersDAO->insert($post);
 	if(empty($user)) {
 		$response = $response->withStatus(404);
 	} else {
@@ -186,7 +190,12 @@ $app->post('/api/creations', function ($request, $response, $args) {
 	if(authenticated()) {
 		$creationsDAO = new CreationsDAO();
 		$post = $request->getParsedBody();
-		$creation = $creationsDAO->insert($_SESSION['tt_user']['id'], $post['title'], $post['info'], $post['image_url'], $post['group_id']);
+		$post['user_id'] = $_SESSION['tt_user']['id'];
+		$errors = $creationsDAO->validate($post);
+		if(!empty($errors)) {
+			return $response->write(json_encode($errors))->withHeader('Content-Type', 'application/json')->withStatus('422');
+		}
+		$creation = $creationsDAO->insert($post);
 		if(empty($user)) {
 			$response = $response->withStatus(404);
 		} else {
@@ -221,7 +230,13 @@ $app->put('/api/creations/{id}', function ($request, $response, $args) {
 				exit;
 			}
 			$post = $request->getParsedBody();
-			$updatedCreation = $creationsDAO->update($creation['id'], $_SESSION['tt_user']['id'], $post['title'], $post['info'], $post['image_url'], $post['group_id']);
+			$post['id'] = $creation['id'];
+			$post['user_id'] = $_SESSION['tt_user']['id'];
+			$errors = $creationsDAO->validate($post);
+			if(!empty($errors)) {
+				return $response->write(json_encode($errors))->withHeader('Content-Type', 'application/json')->withStatus('422');
+			}
+			$updatedCreation = $creationsDAO->update($post);
 			if(empty($updatedCreation)) {
 				$response = $response->withStatus(404);
 			} else {
@@ -323,7 +338,12 @@ $app->post('/api/groups', function ($request, $response, $args) {
 	if(authenticated()) {
 		$groupsDAO = new GroupsDAO();
 		$post = $request->getParsedBody();
-		$group = $groupsDAO->insert($post['title'], $post['info'], $_SESSION['tt_user']['id']);
+		$post['user_id'] = $_SESSION['tt_user']['id'];
+		$errors = $groupsDAO->validate($post);
+		if(!empty($errors)) {
+			return $response->write(json_encode($errors))->withHeader('Content-Type', 'application/json')->withStatus('422');
+		}
+		$group = $groupsDAO->insert($post);
 		if(empty($user)) {
 			$response = $response->withStatus(404);
 		} else {
@@ -358,7 +378,13 @@ $app->put('/api/groups/{id}', function ($request, $response, $args) {
 				exit;
 			}
 			$post = $request->getParsedBody();
-			$updatedGroup = $groupsDAO->update($group['id'], $post['title'], $_SESSION['tt_user']['id']);
+			$post['id'] = $group['id'];
+			$post['user_id'] = $_SESSION['tt_user']['id'];
+			$errors = $groupsDAO->validate($post);
+			if(!empty($errors)) {
+				return $response->write(json_encode($errors))->withHeader('Content-Type', 'application/json')->withStatus('422');
+			}
+			$updatedGroup = $groupsDAO->update($post);
 			if(empty($updatedGroup)) {
 				$response = $response->withStatus(404);
 			} else {

@@ -60,14 +60,56 @@ $app->post('/api/users', function ($request, $response, $args) {
 	$usersDAO = new UsersDAO();
 	$post = $request->getParsedBody();
 	$user = $usersDAO->insert($post['username'], $post['password'], $post['email'], $post['firstname'], $post['lastname'], $post['bio']);
-	unset($user['password']);
-	$response = $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');
-	if(empty($insertedTeacher)) {
+	if(empty($user)) {
 		$response = $response->withStatus(404);
 	} else {
+		unset($user['password']);
 		$response = $response->withStatus(201);
 	}
-	return $response;
+	return $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');
+});
+
+// USER
+
+$app->get('/api/users/{id}', function ($request, $response, $args) {
+	$usersDAO = new UsersDAO();
+	$user = $usersDAO->selectById($args['id']);
+	if(empty($user)) {
+		$response = $response->withStatus(404);
+	} else {
+		unset($user['password']);
+		$response = $response->withStatus(200);
+	}
+	return $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');
+});
+
+$app->put('/api/users/{id}', function ($request, $response, $args) {
+	$usersDAO = new UsersDAO();
+	$user = $usersDAO->selectById($args['id']);
+	if(!empty($user)) {
+		$post = $request->getParsedBody();
+		if(empty($post['role_id'])) {
+			$post['role_id'] = $user['role_id'];
+		} if(empty($post['hidden'])) {
+			$post['hidden'] = $user['hidden'];
+		}
+		$updatedUser = $usersDAO->update($user['id'], $post['username'], $post['password'], $post['email'], $post['firstname'], $post['lastname'], $post['bio'], $post['role_id'], $post['hidden']);
+		if(empty($updatedUser)) {
+			$response = $response->withStatus(404);
+		} else {
+			unset($updatedUser['password']);
+			$response = $response->withStatus(200);
+		}
+	} else {
+		$response = $response->withStatus(404);
+	}
+	return $response->write(json_encode($updatedUser))->withHeader('Content-Type', 'application/json');
+});
+
+$app->delete('/api/users/{id}', function ($request, $response, $args) {
+	$usersDAO = new UsersDAO();
+	$user = $usersDAO->delete($args['id']);
+	return $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');
 });
 
 //TODO: Check authorization; if unauthenticated: 401

@@ -20,7 +20,7 @@ class CreationsDAO extends DAO {
 		return array();
 	}
 
-	public function selectCreationsByUserId($user_id) {
+	public function selectByUserId($user_id) {
 		$sql = "SELECT `tt_creations` WHERE `creator_id` = :user_id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':user_id', $user_id);
@@ -30,7 +30,7 @@ class CreationsDAO extends DAO {
 		return array();
 	}
 
-	public function selectCreationsByGroupId($group_id) {
+	public function selectGroupId($group_id) {
 		$sql = "SELECT `tt_creations` WHERE `group_id` = :group_id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':group_id', $group_id);

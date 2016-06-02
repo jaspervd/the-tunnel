@@ -59,8 +59,8 @@ class UsersDAO extends DAO {
 		return array();
 	}
 
-	public function update($id, $username, $password, $email, $firstname, $lastname, $bio, $role_id, $hidden) {
-		$sql = "UPDATE `tt_users` SET `username` = :username, `password` = :password, `email` = :email, `firstname` = :firstname, `lastname` = :lastname, `bio` = :bio, `role_id` = :role_id, `hidden` = :hidden WHERE `id` = :id";
+	public function update($id, $username, $password, $email, $firstname, $lastname, $bio) {
+		$sql = "UPDATE `tt_users` SET `username` = :username, `password` = :password, `email` = :email, `firstname` = :firstname, `lastname` = :lastname, `bio` = :bio WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
 		$qry->bindValue(':username', $username);
@@ -69,7 +69,27 @@ class UsersDAO extends DAO {
 		$qry->bindValue(':firstname', $firstname);
 		$qry->bindValue(':lastname', $lastname);
 		$qry->bindValue(':bio', $bio);
+		if($qry->execute()) {
+			return $this->selectById($id);
+		}
+		return array();
+	}
+
+	public function setRole($id, $role_id) {
+		$sql = "UPDATE `tt_users` SET `role_id` = :role_id WHERE `id` = :id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':id', $id);
 		$qry->bindValue(':role_id', $role_id);
+		if($qry->execute()) {
+			return $this->selectById($id);
+		}
+		return array();
+	}
+
+	public function setHidden($id, $hidden) {
+		$sql = "UPDATE `tt_users` SET `hidden` = :hidden WHERE `id` = :id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':id', $id);
 		$qry->bindValue(':hidden', $hidden);
 		if($qry->execute()) {
 			return $this->selectById($id);

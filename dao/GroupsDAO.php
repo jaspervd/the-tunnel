@@ -21,9 +21,10 @@ class GroupsDAO extends DAO {
 	}
 
 	public function selectByUserId($user_id) {
-		$sql = "SELECT `tt_groups`.*, `tt_user_groups`.`user_id` FROM `tt_groups` LEFT JOIN `tt_user_groups` ON `tt_groups`.`id` = `tt_user_groups`.`group_id` WHERE `tt_user_groups`.`user_id` = :user_id";
+		$sql = "SELECT `tt_groups`.*, `tt_user_groups`.`user_id` FROM `tt_groups` LEFT JOIN `tt_user_groups` ON `tt_groups`.`id` = `tt_user_groups`.`group_id` WHERE `tt_user_groups`.`user_id` = :user_id AND `tt_groups`.`approved` = :approved";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':user_id', $user_id);
+		$qry->bindValue(':approved', 1);
 		if($qry->execute()) {
 			return $qry->fetchAll(pdo::FETCH_ASSOC);
 		}
@@ -42,12 +43,22 @@ class GroupsDAO extends DAO {
 		return array();
 	}
 
-	public function update($id, $title, $creator_id, $approved) {
-		$sql = "UPDATE `tt_groups` SET `title` = :title, `creator_id` = :creator_id, `approved` = :approved WHERE `id` = :id";
+	public function update($id, $title, $creator_id) {
+		$sql = "UPDATE `tt_groups` SET `title` = :title, `creator_id` = :creator_id WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
 		$qry->bindValue(':title', $title);
 		$qry->bindValue(':creator_id', $creator_id);
+		if($qry->execute()) {
+			return $this->selectById($id);
+		}
+		return array();
+	}
+
+	public function setApproved($id, $approved) {
+		$sql = "UPDATE `tt_groups` SET `approved` = :approved WHERE `id` = :id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':id', $id);
 		$qry->bindValue(':approved', $approved);
 		if($qry->execute()) {
 			return $this->selectById($id);

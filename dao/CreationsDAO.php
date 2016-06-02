@@ -54,8 +54,8 @@ class CreationsDAO extends DAO {
 		return array();
 	}
 
-	public function update($id, $user_id, $title, $info, $image_url, $group_id, $featured, $elected) {
-		$sql = "UPDATE `tt_creations` SET `user_id` = :user_id, `title` = :title, `info` = :info, `image_url` = :image_url, `group_id` = :group_id, `featured` = :featured, `elected` = :elected WHERE `id` = :id";
+	public function update($id, $user_id, $title, $info, $image_url, $group_id) {
+		$sql = "UPDATE `tt_creations` SET `user_id` = :user_id, `title` = :title, `info` = :info, `image_url` = :image_url, `group_id` = :group_id WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
 		$qry->bindValue(':user_id', $user_id);
@@ -63,7 +63,27 @@ class CreationsDAO extends DAO {
 		$qry->bindValue(':info', $info);
 		$qry->bindValue(':image_url', $image_url);
 		$qry->bindValue(':group_id', $group_id);
+		if($qry->execute()) {
+			return $this->selectById($id);
+		}
+		return array();
+	}
+
+	public function setFeatured($id, $featured) {
+		$sql = "UPDATE `tt_creations` SET `featured` = :featured WHERE `id` = :id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':id', $id);
 		$qry->bindValue(':featured', $featured);
+		if($qry->execute()) {
+			return $this->selectById($id);
+		}
+		return array();
+	}
+
+	public function setElected($id, $elected) {
+		$sql = "UPDATE `tt_creations` SET `elected` = :elected WHERE `id` = :id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':id', $id);
 		$qry->bindValue(':elected', $elected);
 		if($qry->execute()) {
 			return $this->selectById($id);

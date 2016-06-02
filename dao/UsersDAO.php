@@ -34,6 +34,7 @@ class UsersDAO extends DAO {
 		$sql = "SELECT * FROM `tt_users` WHERE `username` = :input OR `email` = :input";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':input', $input);
+		$qry->bindValue(':input', $input);
 		if($qry->execute()) {
 			$result = $qry->fetch(pdo::FETCH_ASSOC);
 			if(password_verify($password, $result['password'])) {

@@ -27,6 +27,20 @@ $app->get('/', function($request, $response, $args) {
 
 // USERS
 
+$app->post('/api/auth', function ($request, $response, $args) {
+	$usersDAO = new UsersDAO();
+	$post = $request->getParsedBody();
+	$user = $usersDAO->selectByInputAndPassword($post['input'], $post['password']);
+	if(empty($user)) {
+		return $response->withStatus(403);
+	} else {
+		session_start();
+		unset($user['password']);
+		$_SESSION['tt_user'] = $user;
+		return $response->withStatus(200);
+	}
+});
+
 $app->get('/api/users', function ($request, $response, $args) {
 	$usersDAO = new UsersDAO();
 	$queryParams = $request->getQueryParams();
@@ -55,5 +69,7 @@ $app->post('/api/users', function ($request, $response, $args) {
 	}
 	return $response;
 });
+
+//TODO: Check authorization; if unauthenticated: 401
 
 $app->run();

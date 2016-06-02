@@ -106,6 +106,20 @@ $app->put('/api/users/{id}', function ($request, $response, $args) {
 	return $response->write(json_encode($updatedUser))->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/api/users/{id}/likes', function ($request, $response, $args) {
+	$usersDAO = new UsersDAO();
+	$user = $usersDAO->selectById($args['id']);
+	$likes = array();
+	if(empty($user)) {
+		$response = $response->withStatus(404);
+	} else {
+		$likesDAO = new LikesDAO();
+		$likes = $likesDAO->selectByUserId($user['id']);
+		$response = $response->withStatus(200);
+	}
+	return $response->write(json_encode($likes))->withHeader('Content-Type', 'application/json');
+});
+
 $app->delete('/api/users/{id}', function ($request, $response, $args) {
 	$usersDAO = new UsersDAO();
 	$user = $usersDAO->delete($args['id']);

@@ -28,17 +28,19 @@ $app->get('/', function($request, $response, $args) {
 // USERS
 
 $app->post('/api/auth', function ($request, $response, $args) {
-	$usersDAO = new UsersDAO();
-	$post = $request->getParsedBody();
-	$user = $usersDAO->selectByInputAndPassword($post['input'], $post['password']);
-	if(empty($user)) {
-		return $response->withStatus(403);
-	} else {
-		session_start();
-		unset($user['password']);
-		$_SESSION['tt_user'] = $user;
-		return $response->withStatus(200);
+	if(!authenticated()) {
+		$usersDAO = new UsersDAO();
+		$post = $request->getParsedBody();
+		$user = $usersDAO->selectByInputAndPassword($post['input'], $post['password']);
+		if(empty($user)) {
+			return $response->withStatus(403);
+		} else {
+			session_start();
+			unset($user['password']);
+			$_SESSION['tt_user'] = $user;
+		}
 	}
+	return $response->withStatus(200);
 });
 
 $app->get('/api/users', function ($request, $response, $args) {
@@ -85,6 +87,12 @@ $app->get('/api/users/{id}', function ($request, $response, $args) {
 
 $app->put('/api/users/{id}', function ($request, $response, $args) {
 	if(authenticated()) {
+		if($_SESSION['tt_user']['id'] === $args['id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_edit_user')) {
+			continue;
+		} else {
+			return $response->withStatus(403);
+			exit;
+		}
 		$usersDAO = new UsersDAO();
 		$user = $usersDAO->selectById($args['id']);
 		if(!empty($user)) {
@@ -125,9 +133,11 @@ $app->get('/api/users/{id}/likes', function ($request, $response, $args) {
 });
 
 $app->delete('/api/users/{id}', function ($request, $response, $args) {
-	$usersDAO = new UsersDAO();
-	$user = $usersDAO->delete($args['id']);
-	return $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');
+	if(checkPrivilige($_SESSION['tt_user']['role_id'], 'can_delete_users')) {
+		$usersDAO = new UsersDAO();
+		$user = $usersDAO->delete($args['id']);
+		return $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');
+	}
 });
 
 // CREATIONS
@@ -146,7 +156,7 @@ $app->get('/api/creations', function ($request, $response, $args) {
 	return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/api/creations', function ($request, $response, $args) { // TODO: add session check
+$app->post('/api/creations', function ($request, $response, $args) {
 	if(authenticated()) {
 		$creationsDAO = new CreationsDAO();
 		$post = $request->getParsedBody();
@@ -178,6 +188,12 @@ $app->put('/api/creations/{id}', function ($request, $response, $args) {
 		$creationsDAO = new CreationsDAO();
 		$creation = $creationsDAO->selectById($args['id']);
 		if(!empty($creation)) {
+			if($_SESSION['tt_user']['id'] === $creation['user_id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_edit_creations')) {
+				continue;
+			} else {
+				return $response->withStatus(403);
+				exit;
+			}
 			$post = $request->getParsedBody();
 			if(empty($post['featured'])) {
 				$post['featured'] = $creation['featured'];
@@ -220,7 +236,17 @@ $app->post('/api/creations/{id}/like', function ($request, $response, $args) {
 $app->delete('/api/creations/{id}', function ($request, $response, $args) {
 	if(authenticated()) {
 		$creationsDAO = new CreationsDAO();
-		$creation = $creationsDAO->delete($args['id']);
+		$creation = $creationsDAO->selectById($args['id']);
+		if(!empty($creation)) {
+			if($_SESSION['tt_user']['id'] === $creation['user_id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_delete_creations')) {
+				$creation = $creationsDAO->delete($creation['id']);
+			} else {
+				return $response->withStatus(403);
+				exit;
+			}
+		} else {
+			return $response->withStatus(404);
+		}
 		return $response->write(json_encode($creation))->withHeader('Content-Type', 'application/json');
 	} else {
 		return $response->withStatus(401);
@@ -274,6 +300,12 @@ $app->put('/api/groups/{id}', function ($request, $response, $args) {
 		$groupsDAO = new GroupsDAO();
 		$group = $groupsDAO->selectById($args['id']);
 		if(!empty($group)) {
+			if($_SESSION['tt_user']['id'] === $group['creator_id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_edit_groups')) {
+				continue;
+			} else {
+				return $response->withStatus(403);
+				exit;
+			}
 			$post = $request->getParsedBody();
 			if(empty($post['approved'])) {
 				$post['approved'] = $group['approved'];
@@ -296,45 +328,67 @@ $app->put('/api/groups/{id}', function ($request, $response, $args) {
 $app->delete('/api/groups/{id}', function ($request, $response, $args) {
 	if(authenticated()) {
 		$groupsDAO = new GroupsDAO();
-		$group = $groupsDAO->delete($args['id']);
+		$group = $groupsDAO->selectById($args['id']);
+		if(!empty($group)) {
+			if($_SESSION['tt_user']['id'] === $creation['creator_id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_delete_groups')) {
+				$group = $groupsDAO->delete($group['id']);
+			} else {
+				return $response->withStatus(403);
+				exit;
+			}
+		} else {
+			return $response->withStatus(404);
+		}
 		return $response->write(json_encode($group))->withHeader('Content-Type', 'application/json');
 	} else {
 		return $response->withStatus(401);
 	}
 });
 
-// SCORES -- scores: post delete
+// SCORES
 
 $app->get('/api/scores', function ($request, $response, $args) {
-	$scoresDAO = new ScoresDAO();
-	$scores = $scoresDAO->selectAll();
-	$queryParams = $request->getQueryParams();
-	if(!empty($queryParams['creation_id'])) {
-		$scores = $scoresDAO->selectByCreationId($queryParams['creation_id']);
-	} elseif(!empty($queryParams['user_id'])) {
-		$scores = $scoresDAO->selectByUserId($queryParams['user_id']);
-	} else {
+	if(authenticated() && checkPrivilige($_SESSION['tt_user']['role_id'], 'can_judge_creations')) {
+		$scoresDAO = new ScoresDAO();
 		$scores = $scoresDAO->selectAll();
+		$queryParams = $request->getQueryParams();
+		if(!empty($queryParams['creation_id'])) {
+			$scores = $scoresDAO->selectByCreationId($queryParams['creation_id']);
+		} elseif(!empty($queryParams['user_id'])) {
+			$scores = $scoresDAO->selectByUserId($queryParams['user_id']);
+		} else {
+			$scores = $scoresDAO->selectAll();
+		}
+		return $response->write(json_encode($scores))->withHeader('Content-Type', 'application/json');
+	} else {
+		return $response->withStatus(403);
 	}
-	return $response->write(json_encode($scores))->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/api/scores', function ($request, $response, $args) { // TODO: add session check
-	$scoresDAO = new ScoresDAO();
-	$post = $request->getParsedBody();
-	$score = $groupsDAO->insert($_SESSION['tt_user']['id'], $post['creation_id'], $post['score']);
-	if(empty($score)) {
-		$response = $response->withStatus(404);
+$app->post('/api/scores', function ($request, $response, $args) {
+	if(authenticated() && checkPrivilige($_SESSION['tt_user']['role_id'], 'can_judge_creations')) {
+		$scoresDAO = new ScoresDAO();
+		$post = $request->getParsedBody();
+		$score = $groupsDAO->insert($_SESSION['tt_user']['id'], $post['creation_id'], $post['score']);
+		if(empty($score)) {
+			$response = $response->withStatus(404);
+		} else {
+			$response = $response->withStatus(201);
+		}
+		return $response->write(json_encode($score))->withHeader('Content-Type', 'application/json');
 	} else {
-		$response = $response->withStatus(201);
+		return $response->withStatus(403);
 	}
-	return $response->write(json_encode($score))->withHeader('Content-Type', 'application/json');
 });
 
 $app->delete('/api/scores/{id}', function ($request, $response, $args) {
-	$scoresDAO = new ScoresDAO();
-	$score = $scoresDAO->delete($args['id']);
-	return $response->write(json_encode($score))->withHeader('Content-Type', 'application/json');
+	if(authenticated() && checkPrivilige($_SESSION['tt_user']['role_id'], 'can_judge_creations')) {
+		$scoresDAO = new ScoresDAO();
+		$score = $scoresDAO->delete($args['id']);
+		return $response->write(json_encode($score))->withHeader('Content-Type', 'application/json');
+	} else {
+		return $response->withStatus(403);
+	}
 });
 
 function authenticated() {
@@ -345,9 +399,9 @@ function authenticated() {
 	return false;
 }
 
-function checkPrivilige($privilige) {
+function checkPrivilige($role_id, $privilige) {
 	$adminRoles = new AdminRolesDAO();
-	return true;
+	return !empty($adminRoles->selectByIdAndPrivilige($role_id, $privilige));
 }
 
 $app->run();

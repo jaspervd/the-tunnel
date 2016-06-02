@@ -20,6 +20,18 @@ class AdminRolesDAO extends DAO {
 		return array();
 	}
 
+	public function selectByIdAndPrivilige($id, $privilige) {
+		$sql = "SELECT * FROM `tt_admin_roles` WHERE `id` = :id AND `:privilige` = :value";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':id', $id);
+		$qry->bindValue(':privilige', $privilige);
+		$qry->bindValue(':value', $value);
+		if($qry->execute()) {
+			return $qry->fetch(pdo::FETCH_ASSOC);
+		}
+		return array();
+	}
+
 	public function insert($title, $can_create_admin, $can_approve_groups, $can_edit_creations, $can_delete_creations, $can_feature_creations, $can_judge_creations) {
 		$sql = "INSERT INTO `tt_admin_roles` (`title`, `can_create_admin`, `can_approve_groups`, `can_edit_creations`, `can_delete_creations`, `can_feature_creations`, `can_judge_creations`) VALUES (:title, :can_create_admin, :can_approve_groups, :can_edit_creations, :can_delete_creations, :can_feature_creations, :can_judge_creations)";
 		$qry = $this->pdo->prepare($sql);

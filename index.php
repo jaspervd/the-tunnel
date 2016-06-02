@@ -143,7 +143,7 @@ $app->post('/api/creations', function ($request, $response, $args) { // TODO: ad
 $app->get('/api/creations/{id}', function ($request, $response, $args) {
 	$creationsDAO = new CreationsDAO();
 	$creation = $creationsDAO->selectById($args['id']);
-	if(empty($user)) {
+	if(empty($creation)) {
 		$response = $response->withStatus(404);
 	} else {
 		$response = $response->withStatus(200);
@@ -171,6 +171,24 @@ $app->put('/api/creations/{id}', function ($request, $response, $args) {
 		$response = $response->withStatus(404);
 	}
 	return $response->write(json_encode($updatedCreation))->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/api/creations/{id}/like', function ($request, $response, $args) {
+	$creationsDAO = new CreationsDAO();
+	$creation = $creationsDAO->selectById($args['id']);
+	if(empty($creation)) {
+		$response = $response->withStatus(404);
+	} else {
+		$likesDAO = new LikesDAO();
+		$alreadyLiked = $likesDAO->selectByInputAndCreationId((empty($_SESSION['tt_user'])? $_SERVER['REMOTE_ADDR'] : $_SESSION['tt_user']['id']), $creation['id']);
+		if(empty($alreadyLiked)) {
+			$like = $likesDAO->insert($creation['id'], $_SERVER['REMOTE_ADDR'], (empty($_SESSION['tt_user'])? 0 : $_SESSION['tt_user']['id']));
+		} else {
+			$like = $likesDAO->delete($alreadyLiked['id']);
+		}
+		$response = $response->withStatus(200);
+	}
+	return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->delete('/api/creations/{id}', function ($request, $response, $args) {
@@ -241,6 +259,9 @@ $app->delete('/api/groups/{id}', function ($request, $response, $args) {
 	$group = $groupsDAO->delete($args['id']);
 	return $response->write(json_encode($group))->withHeader('Content-Type', 'application/json');
 });
+
+// SCORES
+
 
 //TODO: Check authorization; if unauthenticated: 401
 

@@ -125,7 +125,7 @@ $app->get('/api/creations', function ($request, $response, $args) {
 	} else {
 		$creations = $creationsDAO->selectAll();
 	}
-	return $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');
+	return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/api/creations', function ($request, $response, $args) { // TODO: add session check

@@ -40,6 +40,12 @@ module.exports = {
 
     loaders: [
     {
+      test: /\.(hbs|handlebars)$/,
+      exclude: /node_modules/,
+      loader: 'handlebars-loader'
+    },
+
+    {
       test: /\.(js|jsx)$/,
       exclude: /node_modules/,
       loader: 'babel',

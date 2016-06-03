@@ -4,16 +4,18 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  '../collection/groups',
-  '../classes/settings'
-], ($, _, Backbone, Groups, Settings) => {
+  '../../_hbs/home.hbs'
+], ($, _, Backbone, homeTemplate) => {
   var HomeView = Backbone.View.extend({
-    initialize: function () {
+    template: homeTemplate,
 
+    initialize: function () {
+      _.bindAll.apply(_, [this].concat(_.functions(this)));
     },
 
     render: function () {
-
+      this.$el.html(this.template());
+      return this;
     }
   });
 

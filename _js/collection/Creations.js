@@ -5,15 +5,15 @@ import Store from 'backbone.localstorage';
 import Group from '../model/Group';
 import Settings from '../classes/Settings';
 
-class Groups extends Collection {
+class Creations extends Collection {
     constructor(models, options) {
       super(models, options);
-      this.model = Group;
-      this.url = `${Settings.API}/groups`;
+      this.model = Creation;
+      this.url = `${Settings.API}/creations`;
 
-      this.localStorage = new Store('groups-backbone');
+      this.localStorage = new Store('creations-backbone');
       this.comparator = 'order';
     }
 }
 
-export default new Groups();
+export default new Creations();

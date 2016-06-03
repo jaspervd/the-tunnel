@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+	<div class="container"></div>
 	<script>
 	window.app = window.app || {};
 	window.app.basename = '<?php echo $basePath;?>';

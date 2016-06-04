@@ -8,10 +8,11 @@ define([
   '../view/NavigationView',
   '../view/FooterView',
   '../view/HomeView',
+  '../view/ExploreView',
   '../view/ArtistsView',
   '../view/GroupsView',
   '../view/InfoView'
-], ($, _, Backbone, NavigationView, FooterView, HomeView, ArtistsView, GroupsView, InfoView) => {
+], ($, _, Backbone, NavigationView, FooterView, HomeView, ExploreView, ArtistsView, GroupsView, InfoView) => {
   var AppRouter = Backbone.Router.extend({
     initialize: function() {
       _.bindAll.apply(_, [this].concat(_.functions(this)));

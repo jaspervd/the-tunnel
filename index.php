@@ -219,6 +219,11 @@ $app->get('/api/creations/{id}', function ($request, $response, $args) {
 	if(empty($creation)) {
 		$response = $response->withStatus(404);
 	} else {
+		$usersDAO = new UsersDAO();
+		$likesDAO = new LikesDAO();
+		$creation['user'] = $usersDAO->selectById($creation['user_id']);
+		$creation['likes'] = $likesDAO->countByCreationId($creation['id']);
+
 		$response = $response->withStatus(200);
 	}
 	return $response->write(json_encode($creation))->withHeader('Content-Type', 'application/json');

@@ -355,7 +355,7 @@ $app->post('/api/groups', function ($request, $response, $args) {
 			return $response->write(json_encode($errors))->withHeader('Content-Type', 'application/json')->withStatus(422);
 		}
 		$group = $groupsDAO->insert($post);
-		if(empty($user)) {
+		if(empty($group)) {
 			$response = $response->withStatus(404);
 		} else {
 			$response = $response->withStatus(201);
@@ -369,12 +369,12 @@ $app->post('/api/groups', function ($request, $response, $args) {
 $app->get('/api/groups/{id}', function ($request, $response, $args) {
 	$groupsDAO = new GroupsDAO();
 	$group = $groupsDAO->selectById($args['id']);
-	if(empty($user)) {
+	if(empty($group)) {
 		$response = $response->withStatus(404);
 	} else {
 		$response = $response->withStatus(200);
 	}
-	return $response->write(json_encode($creation))->withHeader('Content-Type', 'application/json');
+	return $response->write(json_encode($group))->withHeader('Content-Type', 'application/json');
 });
 
 $app->put('/api/groups/{id}', function ($request, $response, $args) {

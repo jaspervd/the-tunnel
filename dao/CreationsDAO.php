@@ -116,6 +116,9 @@ class CreationsDAO extends DAO {
 		if(empty($data['info'])) {
 			$errors['info'] = 'Gelieve een korte descriptie te geven';
 		}
+		if(empty($data['image_url'])) {
+			$errors['image_url'] = 'Gelieve een inzending up te loaden';
+		}
 		return $errors;
 	}
 }

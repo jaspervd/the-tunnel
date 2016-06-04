@@ -197,12 +197,30 @@ $app->post('/api/creations', function ($request, $response, $args) {
 		$creationsDAO = new CreationsDAO();
 		$post = $request->getParsedBody();
 		$post['user_id'] = $_SESSION['tt_user']['id'];
+		$post['image_url'] = '';
+		$post['group_id'] = (empty($post['group_id'])? 0 : $post['group_id']);
+
+		$imageMimeTypes = array('image/jpeg', 'image/png', 'image/gif');
+		if (!empty($_FILES['image']) && in_array($_FILES['image']['type'], $imageMimeTypes)) {
+			$targetFile = WWW_ROOT . 'upload' . DIRECTORY_SEPARATOR . $_FILES['image']['name'];
+			$pos = strrpos($targetFile, '.');
+			$filename = substr($targetFile, 0, $pos);
+			$ext = substr($targetFile, $pos + 1);
+			$i = 0;
+			while (file_exists($targetFile)) {
+				$i++;
+				$targetFile = $filename . $i . '.' . $ext;
+			}
+			move_uploaded_file($_FILES['image']['tmp_name'], $targetFile);
+			$post['image_url'] = str_replace(WWW_ROOT, '', $targetFile);
+		}
+
 		$errors = $creationsDAO->validate($post);
 		if(!empty($errors)) {
-			return $response->write(json_encode($errors))->withHeader('Content-Type', 'application/json');
+			return $response->write(json_encode($errors))->withHeader('Content-Type', 'application/json')->withStatus(422);
 		}
 		$creation = $creationsDAO->insert($post);
-		if(empty($user)) {
+		if(empty($creation)) {
 			$response = $response->withStatus(404);
 		} else {
 			$response = $response->withStatus(201);

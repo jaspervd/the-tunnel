@@ -1,19 +1,14 @@
 'use strict';
 
-import { Collection } from 'backbone';
-import Store from 'backbone.localstorage';
-import Group from '../model/Group';
-import Settings from '../classes/Settings';
+import {Collection} from 'backbone';
+import {api} from '../classes/globals';
+import Creation from '../model/Creation';
 
-class Creations extends Collection {
-    constructor(models, options) {
-      super(models, options);
-      this.model = Creation;
-      this.url = `${Settings.API}/creations`;
+define([], () => {
+  var Creations = Collection.extend({
+    model: Creation,
+    url: `${api}/creations`
+  });
 
-      this.localStorage = new Store('creations-backbone');
-      this.comparator = 'order';
-    }
-}
-
-export default new Creations();
+  return Creations;
+});

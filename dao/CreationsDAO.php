@@ -10,6 +10,16 @@ class CreationsDAO extends DAO {
 		return array();
 	}
 
+	public function selectByFeatured($featured) {
+		$sql = "SELECT * FROM `tt_creations` WHERE `featured` = :featured";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':featured', $featured);
+		if($qry->execute()) {
+			return $qry->fetchAll(pdo::FETCH_ASSOC);
+		}
+		return array();
+	}
+
 	public function selectById($id) {
 		$sql = "SELECT * FROM `tt_creations` WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);

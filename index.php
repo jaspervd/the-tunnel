@@ -180,6 +180,8 @@ $app->get('/api/creations', function ($request, $response, $args) {
 		$creations = $creationsDAO->selectByUserId($queryParams['user_id']);
 	} elseif(!empty($queryParams['group_id'])) {
 		$creations = $creationsDAO->selectByGroupId($queryParams['group_id']);
+	} elseif(!empty($queryParams['featured'])) {
+		$creations = $creationsDAO->selectByFeatured($queryParams['featured']);
 	} else {
 		$creations = $creationsDAO->selectAll();
 	}

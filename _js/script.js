@@ -3,7 +3,7 @@
 import 'es5-shim';
 
 import Backbone from 'backbone';
-import AppRouter from './router/approuter';
+import AppRouter from './router/AppRouter';
 import $ from 'jquery';
 
 new AppRouter();

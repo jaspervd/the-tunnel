@@ -104,7 +104,12 @@ module.exports = {
     resolve: {
       extensions: ['', '.json', '.js', '.css', '.jsx', '.csv'],
       fallback: path.join(__dirname, 'node_modules'),
-      modulesDirectories: ['dependencies/']
+      root: __dirname,
+      modulesDirectories: ['_js', 'views', 'dependencies'],
+
+      alias: {
+        'underscore': 'lodash'
+      }
     },
 
     resolveLoader: {

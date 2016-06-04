@@ -5,8 +5,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  '../model/Creation',
-  '../../_hbs/creation.hbs'
+  'model/Creation',
+  '_hbs/creation.hbs'
 ], ($, _, Backbone, Creation, template) => {
   var CreationView = Backbone.View.extend({
     template: template,

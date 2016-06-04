@@ -5,8 +5,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  '../model/Group',
-  '../../_hbs/group.hbs'
+  'model/Group',
+  '_hbs/group.hbs'
 ], ($, _, Backbone, Group, template) => {
   var GroupView = Backbone.View.extend({
     template: template,

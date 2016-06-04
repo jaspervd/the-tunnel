@@ -1,19 +1,20 @@
+/* global define */
 'use strict';
 
+import { api } from 'classes/globals';
 import { Model } from 'backbone';
 
-class User extends Model {
-  defaults() {
-    return {
-      id: null,
-      username: '',
-      email: '',
-      firstname: '',
-      lastname: '',
-      bio: '',
-      created_time: ''
-    };
-  }
-}
+define([], () => {
+  var User = Model.extend({
+    id: null,
+    username: '',
+    email: '',
+    firstname: '',
+    lastname: '',
+    bio: '',
+    created_time: '',
+    urlRoot: `${api}/users/`
+  });
 
-export default User;
+  return User;
+});

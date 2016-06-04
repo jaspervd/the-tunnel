@@ -10,11 +10,12 @@ define([
   '../view/HomeView',
   '../view/ExploreView',
   '../view/ArtistsView',
+  '../view/detail/ArtistDetailView',
   '../view/GroupsView',
   '../view/InfoView',
   '../view/LoginView',
   '../view/RegisterView'
-], ($, _, Backbone, NavigationView, FooterView, HomeView, ExploreView, ArtistsView, GroupsView, InfoView, LoginView, RegisterView) => {
+], ($, _, Backbone, NavigationView, FooterView, HomeView, ExploreView, ArtistsView, ArtistDetailView, GroupsView, InfoView, LoginView, RegisterView) => {
   var AppRouter = Backbone.Router.extend({
     initialize: function() {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
@@ -25,6 +26,7 @@ define([
       'featured': 'home',
       'explore': 'explore',
       'artists': 'artists',
+      'artists/:id': 'artist',
       'groups': 'groups',
       'info': 'info',
       'login': 'login',
@@ -32,38 +34,35 @@ define([
     },
 
     home: function() {
-      this.homeView = new HomeView();
-      this.render(this.homeView);
+      this.render(new HomeView());
     },
 
     explore: function() {
-      this.exploreView = new ExploreView();
-      this.render(this.exploreView);
+      this.render(new ExploreView());
     },
 
     artists: function() {
-      this.artistsView = new ArtistsView();
-      this.render(this.artistsView);
+      this.render(new ArtistsView());
+    },
+
+    artist: function(id) {
+      this.render(new ArtistDetailView({artist_id: id}));
     },
 
     groups: function() {
-      this.groupsView = new GroupsView();
-      this.render(this.groupsView);
+      this.render(new GroupsView());
     },
 
     info: function() {
-      this.infoView = new InfoView();
-      this.render(this.infoView);
+      this.render(new InfoView());
     },
 
     login: function() {
-      this.loginView = new LoginView();
-      this.render(this.loginView);
+      this.render(new LoginView());
     },
 
     register: function() {
-      this.registerView = new RegisterView();
-      this.render(this.registerView);
+      this.render(new RegisterView());
     },
 
     render: function(view) {

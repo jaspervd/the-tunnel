@@ -5,7 +5,11 @@ class UsersDAO extends DAO {
 		$sql = "SELECT * FROM `tt_users`";
 		$qry = $this->pdo->prepare($sql);
 		if($qry->execute()) {
-			return $qry->fetchAll(pdo::FETCH_ASSOC);
+			$users = $qry->fetchAll(pdo::FETCH_ASSOC);
+			foreach($users as $user) {
+				unset($user['password']);
+			}
+			return $users;
 		}
 		return array();
 	}
@@ -15,7 +19,9 @@ class UsersDAO extends DAO {
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
 		if($qry->execute()) {
-			return $qry->fetch(pdo::FETCH_ASSOC);
+			$user = $qry->fetch(pdo::FETCH_ASSOC);
+			unset($user['password']);
+			return $user;
 		}
 		return array();
 	}
@@ -25,7 +31,11 @@ class UsersDAO extends DAO {
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':group_id', $group_id);
 		if($qry->execute()) {
-			return $qry->fetchAll(pdo::FETCH_ASSOC);
+			$users = $qry->fetchAll(pdo::FETCH_ASSOC);
+			foreach($users as $user) {
+				unset($user['password']);
+			}
+			return $users;
 		}
 		return array();
 	}
@@ -38,6 +48,7 @@ class UsersDAO extends DAO {
 		if($qry->execute()) {
 			$result = $qry->fetch(pdo::FETCH_ASSOC);
 			if(password_verify($password, $result['password'])) {
+				unset($result['password']);
 				return $result;
 			}
 		}

@@ -20,11 +20,32 @@ class LikesDAO extends DAO {
 		return array();
 	}
 
-	public function selectByInputAndCreationId($input) {
-		$sql = "SELECT * FROM `tt_likes` WHERE `guest_ip` = :input OR `user_id` = :input";
+	public function selectByCreationId($creation_id) {
+		$sql = "SELECT * FROM `tt_likes` WHERE `creation_id` = :creation_id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':creation_id', $creation_id);
+		if($qry->execute()) {
+			return $qry->fetchAll(pdo::FETCH_ASSOC);
+		}
+		return array();
+	}
+
+	public function countByCreationId($creation_id) {
+		$sql = "SELECT COUNT(*) FROM `tt_likes` WHERE `creation_id` = :creation_id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':creation_id', $creation_id);
+		if($qry->execute()) {
+			return $qry->fetchColumn();
+		}
+		return array();
+	}
+
+	public function selectByInputAndCreationId($input, $creation_id) {
+		$sql = "SELECT * FROM `tt_likes` WHERE (`guest_ip` = :input OR `user_id` = :input) AND `creation_id` = :creation_id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':input', $input);
 		$qry->bindValue(':input', $input);
+		$qry->bindValue(':creation_id', $creation_id);
 		if($qry->execute()) {
 			return $qry->fetch(pdo::FETCH_ASSOC);
 		}

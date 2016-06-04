@@ -10,7 +10,9 @@ class Creation extends Model {
       title: '',
       info: '',
       group_id: null,
-      created_time: ''
+      created_time: '',
+      likes: null,
+      user: {}
     };
   }
 }

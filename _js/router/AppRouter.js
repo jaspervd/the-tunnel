@@ -1,3 +1,4 @@
+/* global define */
 'use strict';
 
 define([
@@ -7,8 +8,9 @@ define([
   '../view/NavigationView',
   '../view/FooterView',
   '../view/HomeView',
+  '../view/GroupsView',
   '../view/InfoView'
-], ($, _, Backbone, NavigationView, FooterView, HomeView, InfoView) => {
+], ($, _, Backbone, NavigationView, FooterView, HomeView, GroupsView, InfoView) => {
   var AppRouter = Backbone.Router.extend({
     initialize: function() {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
@@ -17,12 +19,18 @@ define([
     routes: {
       '': 'home',
       'featured': 'home',
+      'groups': 'groups',
       'info': 'info'
     },
 
     home: function() {
       this.homeView = new HomeView();
       this.render(this.homeView);
+    },
+
+    groups: function() {
+      this.groupsView = new GroupsView();
+      this.render(this.groupsView);
     },
 
     info: function() {

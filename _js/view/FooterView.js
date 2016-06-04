@@ -1,3 +1,4 @@
+/* global define */
 'use strict';
 
 define([
@@ -5,10 +6,10 @@ define([
   'underscore',
   'backbone',
   '_hbs/footer.hbs'
-], ($, _, Backbone, footerTemplate) => {
+], ($, _, Backbone, template) => {
   var FooterView = Backbone.View.extend({
     tagName: 'footer',
-    template: footerTemplate,
+    template: template,
 
     initialize: function () {
       _.bindAll.apply(_, [this].concat(_.functions(this)));

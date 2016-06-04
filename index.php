@@ -335,14 +335,14 @@ $app->delete('/api/creations/{id}', function ($request, $response, $args) {
 
 $app->get('/api/groups', function ($request, $response, $args) {
 	$groupsDAO = new GroupsDAO();
-	$groups = $creationsDAO->selectAll();
+	$groups = $groupsDAO->selectAll();
 	$queryParams = $request->getQueryParams();
 	if(!empty($queryParams['user_id'])) {
 		$groups = $groupsDAO->selectByUserId($queryParams['user_id']);
 	} else {
 		$groups = $groupsDAO->selectAll();
 	}
-	return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
+	return $response->write(json_encode($groups))->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/api/groups', function ($request, $response, $args) {

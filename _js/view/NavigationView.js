@@ -1,3 +1,4 @@
+/* global define */
 'use strict';
 
 define([
@@ -5,9 +6,9 @@ define([
   'underscore',
   'backbone',
   '_hbs/navigation.hbs'
-], ($, _, Backbone, navigationTemplate) => {
+], ($, _, Backbone, template) => {
   var NavigationView = Backbone.View.extend({
-    template: navigationTemplate,
+    template: template,
 
     initialize: function () {
       _.bindAll.apply(_, [this].concat(_.functions(this)));

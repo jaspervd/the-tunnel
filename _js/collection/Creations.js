@@ -1,3 +1,4 @@
+/* global define */
 'use strict';
 
 import {Collection} from 'backbone';

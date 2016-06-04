@@ -5,13 +5,13 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  '../model/Creation',
-  '../../_hbs/creation.hbs'
-], ($, _, Backbone, Creation, template) => {
-  var CreationView = Backbone.View.extend({
+  '../model/Group',
+  '../../_hbs/group.hbs'
+], ($, _, Backbone, Group, template) => {
+  var GroupView = Backbone.View.extend({
     template: template,
     tagName: 'article',
-    className: 'creation',
+    className: 'group',
 
     initialize: function () {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
@@ -24,5 +24,5 @@ define([
     }
   });
 
-  return CreationView;
+  return GroupView;
 });

@@ -1,3 +1,4 @@
+/* global define */
 'use strict';
 
 define([
@@ -5,9 +6,9 @@ define([
   'underscore',
   'backbone',
   '_hbs/info.hbs'
-], ($, _, Backbone, infoTemplate) => {
+], ($, _, Backbone, template) => {
   var InfoView = Backbone.View.extend({
-    template: infoTemplate,
+    template: template,
 
     initialize: function () {
       //_.bindAll.apply(_, [this].concat(_.functions(this)));

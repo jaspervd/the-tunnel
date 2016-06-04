@@ -1,3 +1,4 @@
+/* global define */
 'use strict';
 
 define([
@@ -7,9 +8,9 @@ define([
   '_hbs/home.hbs',
   'collection/Creations',
   'view/CreationView'
-], ($, _, Backbone, homeTemplate, Creations, CreationView) => {
+], ($, _, Backbone, template, Creations, CreationView) => {
   var HomeView = Backbone.View.extend({
-    template: homeTemplate,
+    template: template,
 
     initialize: function () {
       //_.bindAll.apply(_, [this].concat(_.functions(this)));

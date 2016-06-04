@@ -1,19 +1,15 @@
+/* global define */
 'use strict';
 
-import { Collection } from 'backbone';
-import Store from 'backbone.localstorage';
-import Group from '../model/Group';
+import {Collection} from 'backbone';
 import {api} from '../classes/globals';
+import Group from '../model/Group';
 
-class Groups extends Collection {
-    constructor(models, options) {
-      super(models, options);
-      this.model = Group;
-      this.url = `${api}/groups`;
+define([], () => {
+  var Groups = Collection.extend({
+    model: Group,
+    url: `${api}/groups`
+  });
 
-      this.localStorage = new Store('groups-backbone');
-      this.comparator = 'order';
-    }
-}
-
-export default new Groups();
+  return Groups;
+});

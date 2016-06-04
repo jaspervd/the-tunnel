@@ -13,12 +13,6 @@ class Group extends Model {
       created_time: ''
     };
   }
-
-  toggle() {
-    this.save({
-      approved: !this.get('approved')
-    });
-  }
 }
 
 export default Group;

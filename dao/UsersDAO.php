@@ -41,10 +41,10 @@ class UsersDAO extends DAO {
 	}
 
 	public function selectByInputAndPassword($input, $password) {
-		$sql = "SELECT * FROM `tt_users` WHERE `username` = :input OR `email` = :input";
+		$sql = "SELECT * FROM `tt_users` WHERE `username` = :username OR `email` = :email";
 		$qry = $this->pdo->prepare($sql);
-		$qry->bindValue(':input', $input);
-		$qry->bindValue(':input', $input);
+		$qry->bindValue(':username', $input);
+		$qry->bindValue(':email', $input);
 		if($qry->execute()) {
 			$result = $qry->fetch(pdo::FETCH_ASSOC);
 			if(password_verify($password, $result['password'])) {

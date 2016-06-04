@@ -1,4 +1,5 @@
 <?php
+session_start();
 ini_set('display_errors', true);
 error_reporting(E_ALL);
 
@@ -35,7 +36,6 @@ $app->post('/api/auth', function ($request, $response, $args) {
 		if(empty($user)) {
 			return $response->withStatus(403);
 		} else {
-			session_start();
 			$_SESSION['tt_user'] = $user;
 		}
 	}

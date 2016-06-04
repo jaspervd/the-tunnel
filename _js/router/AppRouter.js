@@ -4,15 +4,20 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  '../view/HomeView'
-], ($, _, Backbone, HomeView) => {
+  '../view/NavigationView',
+  '../view/FooterView',
+  '../view/HomeView',
+  '../view/InfoView'
+], ($, _, Backbone, NavigationView, FooterView, HomeView, InfoView) => {
   var AppRouter = Backbone.Router.extend({
     initialize: function() {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
     },
 
     routes: {
-      '': 'home'
+      '': 'home',
+      'featured': 'home',
+      'info': 'info'
     },
 
     home: function() {
@@ -20,8 +25,20 @@ define([
       this.render(this.homeView);
     },
 
+    info: function() {
+      this.infoView = new InfoView();
+      this.render(this.infoView);
+    },
+
     render: function(view) {
-      $('.container').html(view.render().$el);
+      var navigationView = new NavigationView();
+      var footerView = new FooterView();
+
+      var $container = $('.container');
+      $container.html('');
+      $container.append(navigationView.render().$el);
+      $container.append(view.render().$el);
+      $container.append(footerView.render().$el);
     }
   });
 

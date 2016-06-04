@@ -26,6 +26,7 @@ define([
     },
 
     addAllCreations: function() {
+      this.render();
       this.collection.each(this.addCreation.bind(this), this);
     },
 

@@ -8,9 +8,10 @@ define([
   '../view/NavigationView',
   '../view/FooterView',
   '../view/HomeView',
+  '../view/ArtistsView',
   '../view/GroupsView',
   '../view/InfoView'
-], ($, _, Backbone, NavigationView, FooterView, HomeView, GroupsView, InfoView) => {
+], ($, _, Backbone, NavigationView, FooterView, HomeView, ArtistsView, GroupsView, InfoView) => {
   var AppRouter = Backbone.Router.extend({
     initialize: function() {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
@@ -19,6 +20,8 @@ define([
     routes: {
       '': 'home',
       'featured': 'home',
+      'explore': 'explore',
+      'artists': 'artists',
       'groups': 'groups',
       'info': 'info'
     },
@@ -26,6 +29,16 @@ define([
     home: function() {
       this.homeView = new HomeView();
       this.render(this.homeView);
+    },
+
+    explore: function() {
+      this.exploreView = new ExploreView();
+      this.render(this.exploreView);
+    },
+
+    artists: function() {
+      this.artistsView = new ArtistsView();
+      this.render(this.artistsView);
     },
 
     groups: function() {

@@ -26,6 +26,7 @@ define([
     },
 
     addAllGroups: function() {
+      this.render();
       this.collection.each(this.addGroup.bind(this), this);
     },
 

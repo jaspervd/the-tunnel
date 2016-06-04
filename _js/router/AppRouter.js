@@ -12,8 +12,9 @@ define([
   '../view/ArtistsView',
   '../view/GroupsView',
   '../view/InfoView',
-  '../view/LoginView'
-], ($, _, Backbone, NavigationView, FooterView, HomeView, ExploreView, ArtistsView, GroupsView, InfoView, LoginView) => {
+  '../view/LoginView',
+  '../view/RegisterView'
+], ($, _, Backbone, NavigationView, FooterView, HomeView, ExploreView, ArtistsView, GroupsView, InfoView, LoginView, RegisterView) => {
   var AppRouter = Backbone.Router.extend({
     initialize: function() {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
@@ -27,7 +28,7 @@ define([
       'groups': 'groups',
       'info': 'info',
       'login': 'login',
-      'register': 'login'
+      'register': 'register'
     },
 
     home: function() {
@@ -58,6 +59,11 @@ define([
     login: function() {
       this.loginView = new LoginView();
       this.render(this.loginView);
+    },
+
+    register: function() {
+      this.registerView = new RegisterView();
+      this.render(this.registerView);
     },
 
     render: function(view) {

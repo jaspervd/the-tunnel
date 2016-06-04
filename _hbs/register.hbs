@@ -1,0 +1,44 @@
+<form method="post" action="">
+	<p>
+		<label for="username">Gebruikersnaam</label>
+		<input type="text" name="username" id="username" />
+	</p>
+	<p>
+		<label for="email">E-mailadres</label>
+		<input type="email" name="email" id="email" />
+	</p>
+	<p>
+		<label for="password">Wachtwoord</label>
+		<input type="password" name="password" id="password" />
+	</p>
+	<p>
+		<label for="password_confirm">Wachtwoord herhalen</label>
+		<input type="password" name="password_confirm" id="password_confirm" />
+	</p>
+	<p>
+		<label for="firstname">Voornaam</label>
+		<input type="text" name="firstname" id="firstname" />
+	</p>
+	<p>
+		<label for="lastname">Achternaam</label>
+		<input type="text" name="lastname" id="lastname" />
+	</p>
+	<p>
+		<label for="country">Land</label>
+		<input type="text" list="countries" name="country" id="country" />
+		<datalist id="countries">
+			<option value="Afghanistan">
+			<option value="Albania">
+			<option value="United Kingdom">
+			<option value="United States">
+			<option value="Vanuatu">
+			<option value="Vatican City">
+			<option value="Yemen">
+			<option value="Zambia">
+			<option value="Zimbabwe">
+		</datalist>
+	</p>
+	<p>
+		<input type="submit" value="Registreer" />
+	</p>
+</form>

@@ -93,9 +93,7 @@ $app->get('/api/users/{id}', function ($request, $response, $args) {
 
 $app->put('/api/users/{id}', function ($request, $response, $args) {
 	if(authenticated()) {
-		if($_SESSION['tt_user']['id'] === $args['id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_edit_user')) {
-			continue;
-		} else {
+		if(!($_SESSION['tt_user']['id'] === $args['id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_edit_user'))) {
 			return $response->withStatus(403);
 			exit;
 		}
@@ -103,7 +101,8 @@ $app->put('/api/users/{id}', function ($request, $response, $args) {
 		$user = $usersDAO->selectById($args['id']);
 		if(!empty($user)) {
 			$post = $request->getParsedBody();
-			$updatedUser = $usersDAO->update($user['id'], $post['username'], $post['password'], $post['email'], $post['firstname'], $post['lastname'], $post['bio']);
+			$post['id'] = $user['id'];
+			$updatedUser = $usersDAO->update($post);
 			if(empty($updatedUser)) {
 				$response = $response->withStatus(404);
 			} else {
@@ -258,9 +257,7 @@ $app->put('/api/creations/{id}', function ($request, $response, $args) {
 		$creationsDAO = new CreationsDAO();
 		$creation = $creationsDAO->selectById($args['id']);
 		if(!empty($creation)) {
-			if($_SESSION['tt_user']['id'] === $creation['user_id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_edit_creations')) {
-				continue;
-			} else {
+			if(!($_SESSION['tt_user']['id'] === $creation['user_id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_edit_creations'))) {
 				return $response->withStatus(403);
 				exit;
 			}
@@ -406,9 +403,7 @@ $app->put('/api/groups/{id}', function ($request, $response, $args) {
 		$groupsDAO = new GroupsDAO();
 		$group = $groupsDAO->selectById($args['id']);
 		if(!empty($group)) {
-			if($_SESSION['tt_user']['id'] === $group['creator_id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_edit_groups')) {
-				continue;
-			} else {
+			if(!($_SESSION['tt_user']['id'] === $group['creator_id'] || !checkPrivilige($_SESSION['tt_user']['role_id'], 'can_edit_groups'))) {
 				return $response->withStatus(403);
 				exit;
 			}

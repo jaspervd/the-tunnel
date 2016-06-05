@@ -82,7 +82,7 @@ class UsersDAO extends DAO {
 		$qry->bindValue(':bio', $data['bio']);
 		$qry->bindValue(':country', $data['country']);
 		if($qry->execute()) {
-			return $this->selectById($id);
+			return $this->selectById($data['id']);
 		}
 		return array();
 	}

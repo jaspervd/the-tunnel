@@ -15,12 +15,13 @@ define([
   '../view/detail/CreationDetailView',
   '../view/ArtistsView',
   '../view/detail/ArtistDetailView',
+  '../view/ArtistEditView',
   '../view/GroupsView',
   '../view/detail/GroupDetailView',
   '../view/InfoView',
   '../view/LoginView',
   '../view/RegisterView'
-], ($, _, Backbone, NavigationView, FooterView, HomeView, AddCreationView, ExploreView, CreationDetailView, ArtistsView, ArtistDetailView, GroupsView, GroupDetailView, InfoView, LoginView, RegisterView) => {
+], ($, _, Backbone, NavigationView, FooterView, HomeView, AddCreationView, ExploreView, CreationDetailView, ArtistsView, ArtistDetailView, ArtistEditView, GroupsView, GroupDetailView, InfoView, LoginView, RegisterView) => {
   var AppRouter = Backbone.Router.extend({
     initialize: function() {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
@@ -36,6 +37,7 @@ define([
       'creations/:id': 'creation',
       'artists': 'artists',
       'artists/:id': 'artist',
+      'artists/:id/edit': 'artistEdit',
       'groups': 'groups',
       'groups/:id': 'group',
       'info': 'info',
@@ -66,6 +68,10 @@ define([
 
     artist: function(id) {
       this.render(new ArtistDetailView({artist_id: id}));
+    },
+
+    artistEdit: function(id) {
+      this.render(new ArtistEditView({artist_id: id}));
     },
 
     groups: function() {

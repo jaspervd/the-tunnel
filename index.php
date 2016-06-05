@@ -29,8 +29,8 @@ $app->get('/', function($request, $response, $args) {
 // USERS
 
 $app->post('/api/auth', function ($request, $response, $args) {
+	$usersDAO = new UsersDAO();
 	if(!authenticated()) {
-		$usersDAO = new UsersDAO();
 		$post = $request->getParsedBody();
 		$user = $usersDAO->selectByInputAndPassword($post['input'], $post['password']);
 		if(empty($user)) {
@@ -38,8 +38,13 @@ $app->post('/api/auth', function ($request, $response, $args) {
 		} else {
 			$_SESSION['tt_user'] = $user;
 		}
+	} else {
+		$user = $usersDAO->selectById($_SESSION['tt_user']['id']);
+		if(empty($user)) {
+			return $response->withStatus(403);
+		}
 	}
-	return $response->withStatus(200);
+	return $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');
 });
 
 $app->get('/api/users', function ($request, $response, $args) {

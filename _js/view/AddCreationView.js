@@ -7,10 +7,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  '_hbs/addcreation.hbs',
-  'model/Creation',
-  'collection/Creations'
-], ($, _, Backbone, template, Creation, Creations) => {
+  '_hbs/addcreation.hbs'
+], ($, _, Backbone, template) => {
   var AddCreationView = Backbone.View.extend({
     template: template,
 
@@ -29,7 +27,7 @@ define([
         type: 'POST',
         data: new FormData(e.currentTarget),
         contentType: false,
-        processData: false,
+        processData: false
       }).success((data) => {
         Backbone.history.navigate(`creations/${data.id}`, true);
       }).fail(() => {

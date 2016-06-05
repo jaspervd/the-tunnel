@@ -23,7 +23,7 @@ define([
     },
 
     render: function () {
-      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.html(this.template({artist: this.model.toJSON(), user: window.user}));
       return this;
     }
   });

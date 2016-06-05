@@ -25,6 +25,10 @@ module.exports = {
     filename: config.js.dest.file //JavaScript end point
   },
 
+  node: {
+    fs: "empty"
+  },
+
   //quickest, webpack -d -p for production
   devtool: 'eval',
 
@@ -35,14 +39,11 @@ module.exports = {
 
   module: {
 
-    //test: which filetype?,
-    //exclude: which folders to exclude
-
     loaders: [
     {
       test: /\.(hbs|handlebars)$/,
       exclude: /node_modules/,
-      loader: 'handlebars-loader'
+      loader: 'handlebars-template-loader'
     },
 
     {

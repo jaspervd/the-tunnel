@@ -1,6 +1,8 @@
 /* global define */
 'use strict';
 
+import {api} from 'classes/globals';
+
 define([
   'jquery',
   'underscore',
@@ -22,6 +24,8 @@ define([
   var AppRouter = Backbone.Router.extend({
     initialize: function() {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
+
+      this.authenticationCheck();
     },
 
     routes: {
@@ -82,6 +86,13 @@ define([
 
     register: function() {
       this.render(new RegisterView());
+    },
+
+    authenticationCheck: function() {
+      window.user = {};
+      $.post(`${api}/auth`, (data) => {
+        window.user = data;
+      });
     },
 
     render: function(view) {

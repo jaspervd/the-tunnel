@@ -5,5 +5,10 @@
 	<li><a href="#artists">Artists</a></li>
 	<li><a href="#groups">Groups</a></li>
 	<li><a href="#info">Info</a></li>
+	{{#if id}}
+	<li><a href="#artists/{{id}}">Profile</a></li>
+	<li><a href="#logout">Logout</a></li>
+	{{else}}
 	<li><a href="#login">Login / Register</a></li>
+	{{/if}}
 </ul>

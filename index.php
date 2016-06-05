@@ -47,6 +47,13 @@ $app->post('/api/auth', function ($request, $response, $args) {
 	return $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');
 });
 
+$app->post('/api/logout', function ($request, $response, $args) {
+	if(authenticated()) {
+		unset($_SESSION['tt_user']);
+	}
+	return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
 $app->get('/api/users', function ($request, $response, $args) {
 	$usersDAO = new UsersDAO();
 	$queryParams = $request->getQueryParams();

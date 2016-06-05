@@ -15,7 +15,7 @@ define([
     },
 
     render: function () {
-      this.$el.html(this.template());
+      this.$el.html(this.template(window.user));
       return this;
     }
   });

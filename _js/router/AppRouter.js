@@ -26,6 +26,8 @@ define([
     initialize: function() {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
 
+      this.navigationView = new NavigationView();
+      this.footerView = new FooterView();
       this.authenticationCheck();
     },
 
@@ -43,7 +45,8 @@ define([
       'info': 'info',
       'login': 'login',
       'register': 'register',
-      '*path': 'home',
+      'logout': 'logout',
+      '*path': 'home'
     },
 
     home: function() {
@@ -87,29 +90,42 @@ define([
     },
 
     login: function() {
-      this.render(new LoginView());
+      if(window.user.id > 0) {
+        Backbone.history.navigate(`artists/${window.user.id}`, true);
+      } else {
+        this.render(new LoginView());
+      }
     },
 
     register: function() {
-      this.render(new RegisterView());
+      if(window.user.id > 0) {
+        Backbone.history.navigate(`artists/${window.user.id}`, true);
+      } else {
+        this.render(new RegisterView());
+      }
+    },
+
+    logout: function() {
+      $.post(`${api}/logout`);
+      window.user = {};
+      Backbone.history.navigate('login', true);
     },
 
     authenticationCheck: function() {
       window.user = {};
       $.post(`${api}/auth`, (data) => {
         window.user = data;
+      }).done(() => {
+        this.navigationView.render(); // re-render because window.user is not filled on first render
       });
     },
 
     render: function(view) {
-      var navigationView = new NavigationView();
-      var footerView = new FooterView();
-
       var $container = $('.container');
       $container.html('');
-      $container.append(navigationView.render().$el);
+      $container.append(this.navigationView.render().$el);
       $container.append(view.render().$el);
-      $container.append(footerView.render().$el);
+      $container.append(this.footerView.render().$el);
     }
   });
 

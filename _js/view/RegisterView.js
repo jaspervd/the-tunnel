@@ -26,6 +26,7 @@ define([
     submitHandler: function(e) {
       e.preventDefault();
       $.post(`${api}/users`, this.$el.find('form').serialize(), (data) => {
+        window.user = data;
         Backbone.history.navigate(`artists/${data.id}`, true);
       }).fail(function(data) {
         console.log('error', data);

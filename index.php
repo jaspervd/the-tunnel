@@ -72,6 +72,7 @@ $app->post('/api/users', function ($request, $response, $args) {
 	if(empty($user)) {
 		$response = $response->withStatus(404);
 	} else {
+		$_SESSION['tt_user'] = $user;
 		$response = $response->withStatus(201);
 	}
 	return $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');

@@ -33,7 +33,7 @@ define([
 
     routes: {
       '': 'home',
-      'addcreation': 'addcreation',
+      'creations/add': 'addcreation',
       'featured': 'home',
       'explore': 'explore',
       'creations/:id': 'creation',

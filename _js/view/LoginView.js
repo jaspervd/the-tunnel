@@ -17,7 +17,7 @@ define([
     },
 
     initialize: function () {
-      //_.bindAll.apply(_, [this].concat(_.functions(this)));
+      _.bindAll.apply(_, [this].concat(_.functions(this)));
     },
 
     submitHandler: function(e) {

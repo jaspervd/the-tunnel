@@ -40,7 +40,6 @@ define([
         type: 'PUT',
         data: $(e.currentTarget).serialize()
       }).success((data) => {
-        console.log(data);
         Backbone.history.navigate(`artists/${data.id}`, true);
       }).fail(() => {
         console.log('error');

@@ -22,7 +22,7 @@ define([
 
     addGroup: function(group) {
       var view = new GroupView({ model: group });
-      this.$el.append(view.render().$el);
+      this.$el.find('.groups').append(view.render().$el);
     },
 
     addAllGroups: function() {

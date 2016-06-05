@@ -1,2 +1,10 @@
 <h1>{{title}}</h1>
 {{info}}
+<ul>
+	{{#each users}}
+	<li><img src="{{image_url}}" alt="{{username}}" /></li>
+	{{/each}}
+</ul>
+<a href="#groups/{{id}}/artists">Show more</a>
+<h1>Creations</h1>
+<div class="creations"></div>

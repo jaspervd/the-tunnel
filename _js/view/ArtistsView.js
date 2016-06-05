@@ -22,7 +22,7 @@ define([
 
     addArtist: function(artist) {
       var view = new ArtistView({ model: artist });
-      this.$el.append(view.render().$el);
+      this.$el.find('.artists').append(view.render().$el);
     },
 
     addAllArtists: function() {

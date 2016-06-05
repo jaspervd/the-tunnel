@@ -20,7 +20,7 @@ define([
 
     addCreation: function(creation) {
       var view = new CreationView({ model: creation });
-      this.$el.append(view.render().$el);
+      this.$el.find('creations').append(view.render().$el);
     },
 
     addAllCreations: function() {

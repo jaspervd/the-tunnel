@@ -210,6 +210,12 @@ $app->get('/api/creations', function ($request, $response, $args) {
 	return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/api/creations/count', function ($request, $response, $args){
+  $creationsDAO = new CreationsDAO();
+  $count = $creationsDAO->getCount();
+  return $response->write(json_encode($count))->withHeader('Content-Type', 'applicaton/json');
+});
+
 $app->post('/api/creations', function ($request, $response, $args) {
 	if(authenticated()) {
 		$creationsDAO = new CreationsDAO();

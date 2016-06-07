@@ -10,6 +10,15 @@ class CreationsDAO extends DAO {
 		return array();
 	}
 
+  public function getCount() {
+    $sql = "SELECT COUNT(*) FROM `tt_creations`";
+    $qry = $this->pdo->prepare($sql);
+    if($qry->execute()) {
+      return $qry->fetchColumn();
+    }
+    return array();
+  }
+
 	public function selectByFeatured($featured) {
 		$sql = "SELECT * FROM `tt_creations` WHERE `featured` = :featured";
 		$qry = $this->pdo->prepare($sql);

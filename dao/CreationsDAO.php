@@ -121,6 +121,17 @@ class CreationsDAO extends DAO {
 		return array();
 	}
 
+	public function setNominated($id, $nominated) {
+		$sql = "UPDATE `tt_creations` SET `nominated` = :nominated WHERE `id` = :id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':id', $id);
+		$qry->bindValue(':nominated', $nominated);
+		if($qry->execute()) {
+			return $this->selectById($id);
+		}
+		return array();
+	}
+
 	public function delete($id) {
 		$sql = "DELETE FROM `tt_creations` WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);

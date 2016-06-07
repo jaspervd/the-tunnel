@@ -211,9 +211,9 @@ $app->get('/api/creations', function ($request, $response, $args) {
 });
 
 $app->get('/api/creations/count', function ($request, $response, $args){
-  $creationsDAO = new CreationsDAO();
-  $count = $creationsDAO->getCount();
-  return $response->write(json_encode($count))->withHeader('Content-Type', 'applicaton/json');
+	$creationsDAO = new CreationsDAO();
+	$count = $creationsDAO->getCount();
+	return $response->write(json_encode($count))->withHeader('Content-Type', 'applicaton/json');
 });
 
 $app->post('/api/creations', function ($request, $response, $args) {
@@ -351,6 +351,9 @@ $app->post('/api/creations/{id}/like', function ($request, $response, $args) {
 		$likesDAO = new LikesDAO();
 		$alreadyLiked = $likesDAO->selectByInputAndCreationId((empty($_SESSION['tt_user'])? $_SERVER['REMOTE_ADDR'] : $_SESSION['tt_user']['id']), $creation['id']);
 		if(empty($alreadyLiked)) {
+			if(!$creation['nominated'] && $likesDAO->countByCreationId($creation['id']) > 50) { // when creation has over 50 likes
+				$creation->setNominated(1);
+			}
 			$like = $likesDAO->insert($creation['id'], $_SERVER['REMOTE_ADDR'], (empty($_SESSION['tt_user'])? 0 : $_SESSION['tt_user']['id']));
 		} else {
 			$like = $likesDAO->delete($alreadyLiked['id']);

@@ -21,11 +21,10 @@ class AdminRolesDAO extends DAO {
 	}
 
 	public function selectByIdAndPrivilige($id, $privilige) {
-		$sql = "SELECT * FROM `tt_admin_roles` WHERE `id` = :id AND `:privilige` = :value";
+		$sql = "SELECT * FROM `tt_admin_roles` WHERE `id` = :id AND `". $privilige ."` = :value";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $id);
-		$qry->bindValue(':privilige', $privilige);
-		$qry->bindValue(':value', $value);
+		$qry->bindValue(':value', 1);
 		if($qry->execute()) {
 			return $qry->fetch(pdo::FETCH_ASSOC);
 		}

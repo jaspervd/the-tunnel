@@ -61,7 +61,7 @@ $app->post('/api/logout', function ($request, $response, $args) {
 $app->get('/api/users', function ($request, $response, $args) {
 	$usersDAO = new UsersDAO();
 	$queryParams = $request->getQueryParams();
-	if(!empty($queryParams['group_id'])) {
+	if(isset($queryParams['group_id'])) {
 		$users = $usersDAO->selectByGroupId($queryParams['group_id']);
 	} else {
 		$users = $usersDAO->selectAll();
@@ -187,15 +187,15 @@ $app->get('/api/creations', function ($request, $response, $args) {
 	$creationsDAO = new CreationsDAO();
 	$creations = $creationsDAO->selectAll();
 	$queryParams = $request->getQueryParams();
-	if(!empty($queryParams['user_id'])) {
+	if(isset($queryParams['user_id'])) {
 		$creations = $creationsDAO->selectByUserId($queryParams['user_id']);
-	} elseif(!empty($queryParams['group_id'])) {
+	} elseif(isset($queryParams['group_id'])) {
 		$creations = $creationsDAO->selectByGroupId($queryParams['group_id']);
-	} elseif(!empty($queryParams['featured'])) {
+	} elseif(isset($queryParams['featured'])) {
 		$creations = $creationsDAO->selectByFeatured($queryParams['featured']);
-	} elseif(!empty($queryParams['nominated'])) {
+	} elseif(isset($queryParams['nominated'])) {
 		$creations = $creationsDAO->selectByNominated($queryParams['nominated']);
-	} elseif(!empty($queryParams['elected'])) {
+	} elseif(isset($queryParams['elected'])) {
 		$creations = $creationsDAO->selectByElected($queryParams['elected']);
 	} else {
 		$creations = $creationsDAO->selectAll();
@@ -392,9 +392,9 @@ $app->get('/api/groups', function ($request, $response, $args) {
 	$groupsDAO = new GroupsDAO();
 	$groups = $groupsDAO->selectAll();
 	$queryParams = $request->getQueryParams();
-	if(!empty($queryParams['user_id'])) {
+	if(isset($queryParams['user_id'])) {
 		$groups = $groupsDAO->selectByUserId($queryParams['user_id']);
-	} elseif(!empty($queryParams['approved'])) {
+	} elseif(isset($queryParams['approved'])) {
 		$groups = $groupsDAO->selectByApproved($queryParams['approved']);
 	} else {
 		$groups = $groupsDAO->selectAll();
@@ -524,9 +524,9 @@ $app->get('/api/scores', function ($request, $response, $args) {
 		$scoresDAO = new ScoresDAO();
 		$scores = $scoresDAO->selectAll();
 		$queryParams = $request->getQueryParams();
-		if(!empty($queryParams['creation_id'])) {
+		if(isset($queryParams['creation_id'])) {
 			$scores = $scoresDAO->selectByCreationId($queryParams['creation_id']);
-		} elseif(!empty($queryParams['user_id'])) {
+		} elseif(isset($queryParams['user_id'])) {
 			$scores = $scoresDAO->selectByUserId($queryParams['user_id']);
 		} else {
 			$scores = $scoresDAO->selectAll();

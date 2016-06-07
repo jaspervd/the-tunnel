@@ -51,12 +51,13 @@ class CreationsDAO extends DAO {
 	}
 
 	public function insert($data) {
-		$sql = "INSERT INTO `tt_creations` (`user_id`, `title`, `info`, `image_url`, `group_id`) VALUES (:user_id, :title, :info, :image_url, :group_id)";
+		$sql = "INSERT INTO `tt_creations` (`user_id`, `title`, `info`, `image_url`, `type`, `group_id`) VALUES (:user_id, :title, :info, :image_url, :type, :group_id)";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':user_id', $data['user_id']);
 		$qry->bindValue(':title', $data['title']);
 		$qry->bindValue(':info', $data['info']);
 		$qry->bindValue(':image_url', $data['image_url']);
+    $qry->bindValue(':type', $data['type']);
 		$qry->bindValue(':group_id', $data['group_id']);
 		if($qry->execute()) {
 			return $this->selectById($this->pdo->lastInsertId());

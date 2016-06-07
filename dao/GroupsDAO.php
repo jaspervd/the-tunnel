@@ -32,11 +32,12 @@ class GroupsDAO extends DAO {
 	}
 
 	public function insert($data) {
-		$sql = "INSERT INTO `tt_groups` (`title`, `info`, `creator_id`) VALUES (:title, :info, :creator_id)";
+		$sql = "INSERT INTO `tt_groups` (`title`, `info`, `image_url`, `creator_id`) VALUES (:title, :info, :image_url, :creator_id)";
 		$qry = $this->pdo->prepare($sql);
-		$qry->bindValue(':title', $title);
-		$qry->bindValue(':info', $info);
-		$qry->bindValue(':creator_id', $creator_id);
+		$qry->bindValue(':title', $data['title']);
+		$qry->bindValue(':info', $data['info']);
+    $qry->bindValue(':image_url', $data['image_url']);
+		$qry->bindValue(':creator_id', $data['creator_id']);
 		if($qry->execute()) {
 			return $this->selectById($this->pdo->lastInsertId());
 		}

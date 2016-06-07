@@ -485,7 +485,7 @@ $app->put('/api/groups/{id}', function ($request, $response, $args) {
 $app->patch('/api/groups/{id}/approve', function ($request, $response, $args) {
 	if(authenticated() && checkPrivilige($_SESSION['tt_user']['id'], 'can_approve_groups')) {
 		$groupsDAO = new GroupsDAO();
-		$group = $groupsDAO->approve($group['id']);
+		$group = $groupsDAO->setApproved($args['id'], 1);
 		if(empty($group)) {
 			$response = $response->withStatus(404);
 		} else {

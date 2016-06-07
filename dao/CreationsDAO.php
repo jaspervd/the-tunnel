@@ -39,6 +39,16 @@ class CreationsDAO extends DAO {
 		return array();
 	}
 
+	public function selectByElected($nominated) {
+		$sql = "SELECT * FROM `tt_creations` WHERE `elected` = :elected";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':elected', $elected);
+		if($qry->execute()) {
+			return $qry->fetchAll(pdo::FETCH_ASSOC);
+		}
+		return array();
+	}
+
 	public function selectById($id) {
 		$sql = "SELECT * FROM `tt_creations` WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);

@@ -10,6 +10,16 @@ class GroupsDAO extends DAO {
 		return array();
 	}
 
+	public function selectByApproved($approved) {
+		$sql = "SELECT * FROM `tt_groups` WHERE `approved` = :approved";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':approved', $approved);
+		if($qry->execute()) {
+			return $qry->fetchAll(pdo::FETCH_ASSOC);
+		}
+		return array();
+	}
+
 	public function selectById($id) {
 		$sql = "SELECT * FROM `tt_groups` WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);

@@ -195,6 +195,8 @@ $app->get('/api/creations', function ($request, $response, $args) {
 		$creations = $creationsDAO->selectByFeatured($queryParams['featured']);
 	} elseif(!empty($queryParams['nominated'])) {
 		$creations = $creationsDAO->selectByNominated($queryParams['nominated']);
+	} elseif(!empty($queryParams['elected'])) {
+		$creations = $creationsDAO->selectByElected($queryParams['elected']);
 	} else {
 		$creations = $creationsDAO->selectAll();
 	}
@@ -392,6 +394,8 @@ $app->get('/api/groups', function ($request, $response, $args) {
 	$queryParams = $request->getQueryParams();
 	if(!empty($queryParams['user_id'])) {
 		$groups = $groupsDAO->selectByUserId($queryParams['user_id']);
+	} elseif(!empty($queryParams['approved'])) {
+		$groups = $groupsDAO->selectByApproved($queryParams['approved']);
 	} else {
 		$groups = $groupsDAO->selectAll();
 	}

@@ -193,6 +193,8 @@ $app->get('/api/creations', function ($request, $response, $args) {
 		$creations = $creationsDAO->selectByGroupId($queryParams['group_id']);
 	} elseif(!empty($queryParams['featured'])) {
 		$creations = $creationsDAO->selectByFeatured($queryParams['featured']);
+	} elseif(!empty($queryParams['nominated'])) {
+		$creations = $creationsDAO->selectByNominated($queryParams['nominated']);
 	} else {
 		$creations = $creationsDAO->selectAll();
 	}

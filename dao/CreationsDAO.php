@@ -20,6 +20,16 @@ class CreationsDAO extends DAO {
 		return array();
 	}
 
+	public function selectByNominated($nominated) {
+		$sql = "SELECT * FROM `tt_creations` WHERE `nominated` = :nominated";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':nominated', $nominated);
+		if($qry->execute()) {
+			return $qry->fetchAll(pdo::FETCH_ASSOC);
+		}
+		return array();
+	}
+
 	public function selectById($id) {
 		$sql = "SELECT * FROM `tt_creations` WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
@@ -57,7 +67,7 @@ class CreationsDAO extends DAO {
 		$qry->bindValue(':title', $data['title']);
 		$qry->bindValue(':info', $data['info']);
 		$qry->bindValue(':image_url', $data['image_url']);
-    $qry->bindValue(':type', $data['type']);
+		$qry->bindValue(':type', $data['type']);
 		$qry->bindValue(':group_id', $data['group_id']);
 		if($qry->execute()) {
 			return $this->selectById($this->pdo->lastInsertId());

@@ -528,7 +528,7 @@ $app->post('/api/scores', function ($request, $response, $args) {
 	if(authenticated() && checkPrivilige($_SESSION['tt_user']['id'], 'can_judge_creations')) {
 		$scoresDAO = new ScoresDAO();
 		$post = $request->getParsedBody();
-		$score = $groupsDAO->insert($_SESSION['tt_user']['id'], $post['creation_id'], $post['score']);
+		$score = $scoresDAO->insert($_SESSION['tt_user']['id'], $post['creation_id'], $post['score']);
 		if(empty($score)) {
 			$response = $response->withStatus(404);
 		} else {

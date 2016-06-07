@@ -10,12 +10,22 @@ class ScoresDAO extends DAO {
 		return array();
 	}
 
+	public function selectById($id) {
+		$sql = "SELECT * FROM `tt_scores` WHERE `id` = :id";
+		$qry = $this->pdo->prepare($sql);
+		$qry->bindValue(':id', $id);
+		if($qry->execute()) {
+			return $qry->fetch(pdo::FETCH_ASSOC);
+		}
+		return array();
+	}
+
 	public function selectByCreationId($creation_id) {
 		$sql = "SELECT * FROM `tt_scores` WHERE `creation_id` = :creation_id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':creation_id', $creation_id);
 		if($qry->execute()) {
-			return $qry->fetch(pdo::FETCH_ASSOC);
+			return $qry->fetchAll(pdo::FETCH_ASSOC);
 		}
 		return array();
 	}

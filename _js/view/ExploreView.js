@@ -14,44 +14,8 @@ define([
 
     events: {
       'click .submitSearch': 'submitSearch',
-      'change .filter_month': 'filterMonth',
-      'change .checkbox': 'changeCheckbox'
-    },
-
-    filterMonth: function(e){
-      e.preventDefault();
-      var selectedMonth = e.currentTarget.value;
-      if(selectedMonth !== ''){
-        this.renderFilteredCreations(this.collection.byMonth(selectedMonth));
-      }else{
-        this.collection.fetch();
-      }
-    },
-
-    submitSearch: function(e){
-      e.preventDefault();
-      var $search = this.$el.find('.search');
-      var input = $search.val();
-      if(input !== ''){
-        this.renderFilteredCreations(this.collection.bySearch(input)
-        );
-      }else{
-        this.collection.fetch();
-      }
-    },
-
-    changeCheckbox: function(e){
-      e.preventDefault();
-      var checkboxes = $('input:checkbox[name=type]:checked');
-      var arrayFilter = [];
-      var values = checkboxes.each(function(){
-        arrayFilter.push($(this).val());
-      });
-      if(arrayFilter.length <= 2){
-        this.renderFilteredCreations(this.collection.filterCreations(arrayFilter));
-      }else{
-        this.collection.fetch();
-      }
+      'change .filter_month': 'filterCollection',
+      'change .checkbox': 'filterCollection'
     },
 
     initialize: function () {
@@ -60,13 +24,42 @@ define([
       this.collection.fetch({reset: true});
     },
 
+    submitSearch: function(e){
+      e.preventDefault();
+      var $search = this.$el.find('.search');
+      var input = $search.val();
+      if(input !== ''){
+        this.renderFilteredCreations(this.collection.bySearch(input)
+            );
+      }else{
+        this.collection.fetch();
+      }
+    },
+
+    filterCollection: function() {
+      var selectedMonth = parseInt(this.$el.find('.filter_month').val());
+      var checkboxes = this.$el.find('input:checkbox[name=type]:checked');
+      var arrayFilter = [];
+      checkboxes.each(function(){
+        arrayFilter.push($(this).val());
+      });
+      var filteredCreations = this.collection;
+      if(!isNaN(selectedMonth)) {
+        filteredCreations = filteredCreations.byMonth(selectedMonth);
+      }
+      if(arrayFilter.length <= 2) {
+        filteredCreations = filteredCreations.filterCreations(arrayFilter);
+      }
+      this.renderFilteredCreations(filteredCreations);
+    },
+
     addCreation: function(creation) {
       var view = new CreationView({ model: creation });
       this.$el.find('.creations').append(view.render().el);
     },
 
     addAllCreations: function() {
-      this.render();
+      this.$creations.empty();
       this.collection.each(this.addCreation.bind(this), this);
     },
 

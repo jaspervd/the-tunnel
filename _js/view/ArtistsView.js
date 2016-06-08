@@ -12,6 +12,22 @@ define([
   var ArtistsView = Backbone.View.extend({
     template: template,
 
+    events: {
+      'click .submitSearch': 'submitSearch'
+    },
+
+    submitSearch: function(e){
+      e.preventDefault();
+      var $search = this.$el.find('.search');
+      var input = $search.val();
+      if(input !== ''){
+        this.renderFilteredArtists(this.collection.filterUsers(input)
+        );
+      }else{
+        this.collection.fetch();
+      }
+    },
+
     initialize: function () {
       //_.bindAll.apply(_, [this].concat(_.functions(this)));
 
@@ -30,8 +46,14 @@ define([
       this.collection.each(this.addArtist.bind(this), this);
     },
 
+    renderFilteredArtists: function(artists){
+      this.$artists.empty();
+      artists.forEach(this.addArtist, this);
+    },
+
     render: function () {
       this.$el.html(this.template());
+      this.$artists = this.$el.find('.artists');
       return this;
     }
   });

@@ -19,12 +19,12 @@ define([
 
     initialize: function () {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
-
       this.collection = new Users();
     },
 
     submitHandler: function(e) {
       e.preventDefault();
+
       $.post(`${api}/users`, this.$el.find('form').serialize(), (data) => {
         window.user = data;
         Backbone.history.navigate(`artists/${data.id}`, true);

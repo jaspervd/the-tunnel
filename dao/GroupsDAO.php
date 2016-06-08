@@ -31,10 +31,13 @@ class GroupsDAO extends DAO {
 	}
 
 	public function selectByUserId($user_id) {
-		$sql = "SELECT `tt_groups`.*, `tt_user_groups`.`user_id` FROM `tt_groups` LEFT JOIN `tt_user_groups` ON `tt_groups`.`id` = `tt_user_groups`.`group_id` WHERE `tt_user_groups`.`user_id` = :user_id AND `tt_groups`.`approved` = :approved";
+		$sql = "SELECT `tt_groups`.*, `tt_user_groups`.`user_id` FROM `tt_groups`
+    LEFT JOIN `tt_user_groups` ON `tt_groups`.`id` = `tt_user_groups`.`group_id`
+    WHERE `tt_user_groups`.`user_id` = :user_id AND `tt_groups`.`approved` = :approved_group AND `tt_user_groups`.`approved` = :approved_user_group";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':user_id', $user_id);
-		$qry->bindValue(':approved', 1);
+    $qry->bindValue(':approved_group', 1);
+    $qry->bindValue(':approved_user_group', 1);
 		if($qry->execute()) {
 			return $qry->fetchAll(pdo::FETCH_ASSOC);
 		}

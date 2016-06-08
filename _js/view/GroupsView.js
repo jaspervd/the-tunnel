@@ -12,6 +12,22 @@ define([
   var GroupsView = Backbone.View.extend({
     template: template,
 
+    events: {
+      'click .submitSearch': 'submitSearch'
+    },
+
+    submitSearch: function(e){
+      e.preventDefault();
+      var $search = this.$el.find('.search');
+      var input = $search.val();
+      if(input !== ''){
+        this.renderFilteredGroups(this.collection.filterGroups(input)
+        );
+      }else{
+        this.collection.fetch();
+      }
+    },
+
     initialize: function () {
       //_.bindAll.apply(_, [this].concat(_.functions(this)));
 
@@ -30,8 +46,14 @@ define([
       this.collection.each(this.addGroup.bind(this), this);
     },
 
+    renderFilteredGroups: function(groups){
+      this.$groups.empty();
+      groups.forEach(this.addGroup, this);
+    },
+
     render: function () {
       this.$el.html(this.template());
+      this.$groups = this.$el.find('.groups');
       return this;
     }
   });

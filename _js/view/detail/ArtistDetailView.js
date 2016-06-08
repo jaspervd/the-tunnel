@@ -6,8 +6,10 @@ define([
   'underscore',
   'backbone',
   'model/User',
-  '_hbs/artistdetail.hbs'
-], ($, _, Backbone, User, template) => {
+  '_hbs/artistdetail.hbs',
+  'collection/Groups',
+  'view/GroupView'
+], ($, _, Backbone, User, template, Groups, GroupView) => {
   var ArtistDetailView = Backbone.View.extend({
     template: template,
     artist_id: null,
@@ -20,6 +22,22 @@ define([
       this.model.set('id', this.options.artist_id);
       this.model.fetch();
       this.model.on('reset sync', this.render, this);
+
+      this.getGroups();
+    },
+
+    getGroups: function() {
+      $.get(`${this.model.urlRoot}${this.model.get('id')}/groups`, (data) => {
+        this.renderGroups(new Groups(data));
+      });
+    },
+
+    renderGroups: function(groups) {
+      this.render();
+      groups.each((group) => {
+        var view = new GroupView({ model: group });
+        this.$el.find('.groups').append(view.render().$el);
+      });
     },
 
     render: function () {

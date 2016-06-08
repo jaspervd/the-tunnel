@@ -13,6 +13,7 @@ require 'dao/GroupsDAO.php';
 require 'dao/CreationsDAO.php';
 require 'dao/UsersDAO.php';
 require 'dao/ScoresDAO.php';
+require 'dao/UserGroupsDAO.php';
 
 $configuration = ['settings' => ['displayErrorDetails' => true]];
 $c = new \Slim\Container($configuration);
@@ -71,6 +72,8 @@ $app->get('/api/users', function ($request, $response, $args) {
 }
 return $response->write(json_encode($users))->withHeader('Content-Type', 'application/json');
 });
+
+
 
 $app->post('/api/users', function ($request, $response, $args) {
 	$usersDAO = new UsersDAO();
@@ -141,6 +144,21 @@ $app->get('/api/users/{id}/likes', function ($request, $response, $args) {
 	}
 	return $response->write(json_encode($likes))->withHeader('Content-Type', 'application/json');
 });
+
+$app->get('/api/users/{id}/groups', function ($request, $response, $args) {
+  $usersDAO = new UsersDAO();
+  $user = $usersDAO->selectById($args['id']);
+  $groups = array();
+  if(empty($user)) {
+    $response = $response->withStatus(404);
+  } else {
+    $groupsDAO = new GroupsDAO();
+    $groups = $groupsDAO->selectByUserId($user['id']);
+    $response = $response->withStatus(200);
+  }
+  return $response->write(json_encode($groups))->withHeader('Content-Type', 'application/json');
+});
+
 
 $app->patch('/api/users/{id}/hide', function ($request, $response, $args) {
 	if(authenticated() && checkPrivilige($_SESSION['tt_user']['id'], 'can_edit_users')) {
@@ -432,6 +450,9 @@ $app->post('/api/groups', function ($request, $response, $args) {
 		if(empty($group)) {
 			$response = $response->withStatus(404);
 		} else {
+      $user_groups = new UserGroupsDAO();
+      $group['approvedToGroup'] = 1;
+      $user_group = $user_groups->insert($group);
 			$response = $response->withStatus(201);
 		}
 		return $response->write(json_encode($group))->withHeader('Content-Type', 'application/json');
@@ -480,6 +501,24 @@ $app->put('/api/groups/{id}', function ($request, $response, $args) {
 	} else {
 		return $response->withStatus(401);
 	}
+});
+
+$app->post('/api/groups/{id}/join', function ($request, $response, $args) {
+  if(authenticated()) {
+    $userGroupsDAO = new UserGroupsDAO();
+    $post['id'] = $args['id'];
+    $post['creator_id'] = $_SESSION['tt_user']['id'];
+    $post['approvedToGroup'] = 0;
+    $userGroup = $userGroupsDAO->insert($post);
+    if(empty($userGroup)) {
+      $response = $response->withStatus(404);
+    } else {
+      $response = $response->withStatus(200);
+    }
+    return $response->write(json_encode($userGroup))->withHeader('Content-Type', 'application/json');
+  } else {
+    return $response->withStatus(403);
+  }
 });
 
 $app->patch('/api/groups/{id}/approve', function ($request, $response, $args) {

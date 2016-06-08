@@ -1,42 +1,38 @@
 <form method="post" action="">
 	<p>
 		<label for="username">Gebruikersnaam</label>
-		<input type="text" name="username" id="username" />
+		<input type="text" name="username" id="username" class="registerInput"/>
+    <span class="help-block hidden"></span>
 	</p>
 	<p>
 		<label for="email">E-mailadres</label>
-		<input type="email" name="email" id="email" />
+		<input type="email" name="email" id="email" class="registerInput"/>
+    <span class="help-block hidden"></span>
 	</p>
 	<p>
 		<label for="password">Wachtwoord</label>
-		<input type="password" name="password" id="password" />
+		<input type="password" name="password" id="password" class="registerInput"/>
+    <span class="help-block hidden"></span>
 	</p>
 	<p>
 		<label for="password_confirm">Wachtwoord herhalen</label>
-		<input type="password" name="password_confirm" id="password_confirm" />
+		<input type="password" name="password_confirm" id="password_confirm" class="registerInput"/>
+    <span class="help-block hidden"></span>
 	</p>
 	<p>
 		<label for="firstname">Voornaam</label>
-		<input type="text" name="firstname" id="firstname" />
+		<input type="text" name="firstname" id="firstname" class="registerInput"/>
+    <span class="help-block hidden"></span>
 	</p>
 	<p>
 		<label for="lastname">Achternaam</label>
-		<input type="text" name="lastname" id="lastname" />
+		<input type="text" name="lastname" id="lastname" class="registerInput" />
+    <span class="help-block hidden"></span>
 	</p>
 	<p>
-		<label for="country">Land</label>
-		<input type="text" list="countries" name="country" id="country" />
-		<datalist id="countries">
-			<option value="Afghanistan">
-			<option value="Albania">
-			<option value="United Kingdom">
-			<option value="United States">
-			<option value="Vanuatu">
-			<option value="Vatican City">
-			<option value="Yemen">
-			<option value="Zambia">
-			<option value="Zimbabwe">
-		</datalist>
+    <label for="country">Land</label>
+    <select class="form-control bfh-countries" name="country" id="country" data-country="NL" class="registerInput"></select>
+    <span class="help-block hidden"></span>
 	</p>
 	<p>
 		<input type="submit" value="Registreer" />

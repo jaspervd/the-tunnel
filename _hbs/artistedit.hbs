@@ -25,19 +25,7 @@
 	</p>
 	<p>
 		<label for="country">Land</label>
-		<input type="text" list="countries" name="country" id="country" value="{{country}}" />
-		<datalist id="countries">
-			<option value="Afghanistan">
-			<option value="Albania">
-			<option value="United Kingdom">
-			<option value="United States">
-			<option value="Vanuatu">
-			<option value="Vatican City">
-			<option value="Yemen">
-			<option value="Zambia">
-			<option value="Zimbabwe">
-		</datalist>
-	</p>
+    <select class="form-control bfh-countries" name="country" id="country" data-country="{{country}}"></select>
 	<p>
 		<label for="bio">Bio</label>
 		<textarea name="bio" id="bio">{{bio}}</textarea>

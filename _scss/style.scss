@@ -1,3 +1,141 @@
 @import 'reset';
 @import 'base';
 @import 'fonts';
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: $font-content;
+  font-size: 1.8rem;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* Navigation */
+
+.navigation {
+  width: 100%;
+  height: 110px;
+  float: right;
+  margin-top: 10px;
+
+  li {
+    display: inline-block;
+    margin-left: 16px;
+    vertical-align: middle;
+  }
+
+  a {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: $darkgrey;
+    text-decoration: none;
+    font-size: 1em;
+
+    &:hover {
+      color: $pink;
+    }
+  }
+
+  .tt_header {
+    font-family: $font-header;
+    text-transform: uppercase;
+    font-size: 4em;
+    margin-right: 32px;
+  }
+
+  .addWork {
+    span {
+      background: $yellow;
+      padding: 6px;
+    }
+  }
+
+  .auth {
+    span {
+      background: $pink;
+      padding: 6px;
+    }
+
+    a:hover {
+      color: $white;
+    }
+  }
+}
+
+/* Footer */
+
+.footer {
+  font-family: 'FFMetaProLight';
+  height: 80px;
+  background: $lightgrey;
+  vertical-align: middle;
+  font-size: 1.2em;
+
+  ul {
+    width: 100%;
+    line-height: 80px;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  span {
+    color: $green;
+  }
+
+  .tt_footer {
+    text-transform: uppercase;
+    font-size: 1.6em;
+  }
+}
+
+h1 {
+  color: $pink;
+  text-transform: uppercase;
+  font-size: 2em;
+  position: relative;
+  margin-bottom: 35px;
+  letter-spacing: 2px;
+}
+
+h1:before{
+    content: "";
+    position: absolute;
+    width: 9%;
+    height: 1px;
+    bottom: 0;
+    left: 1%;
+    border-bottom: 1px solid $pink;
+}
+
+.heart {
+  position: relative;
+}
+
+.heart::before {
+  content: "";
+  position: absolute;
+  width: 37px;
+  height: 32px;
+  background: url($image-source + 'heart.png');
+  cursor: pointer;
+  bottom: 0;
+  left: 0;
+}
+
+h2 {
+  color: $green;
+  font-size: 1.2em;
+  text-transform: uppercase;
+}
+
+.error {
+  border: 1px solid red;
+}

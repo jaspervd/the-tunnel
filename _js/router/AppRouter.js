@@ -18,11 +18,12 @@ define([
   '../view/ArtistEditView',
   '../view/GroupsView',
   '../view/detail/GroupDetailView',
+  '../view/AddGroupView',
   '../view/detail/GroupArtistsDetailView',
   '../view/InfoView',
   '../view/LoginView',
   '../view/RegisterView'
-], ($, _, Backbone, NavigationView, FooterView, HomeView, AddCreationView, ExploreView, CreationDetailView, ArtistsView, ArtistDetailView, ArtistEditView, GroupsView, GroupDetailView, GroupArtistsDetailView, InfoView, LoginView, RegisterView) => {
+], ($, _, Backbone, NavigationView, FooterView, HomeView, AddCreationView, ExploreView, CreationDetailView, ArtistsView, ArtistDetailView, ArtistEditView, GroupsView, GroupDetailView, AddGroupView, GroupArtistsDetailView, InfoView, LoginView, RegisterView) => {
   var AppRouter = Backbone.Router.extend({
     initialize: function() {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
@@ -42,13 +43,15 @@ define([
       'artists/:id': 'artist',
       'artists/:id/edit': 'artistEdit',
       'groups': 'groups',
+      'groups/add': 'addgroup',
       'groups/:id': 'group',
       'groups/:id/artists': 'groupartists',
       'info': 'info',
       'login': 'login',
       'register': 'register',
       'logout': 'logout',
-      '*path': 'home'
+      'error': 'error',
+      '*path': 'error'
     },
 
     home: function() {
@@ -87,6 +90,10 @@ define([
       this.render(new GroupDetailView({group_id: id}));
     },
 
+    addgroup: function(){
+      this.render(new AddGroupView());
+    },
+
     groupartists: function(id) {
       this.render(new GroupArtistsDetailView({group_id: id}));
     },
@@ -115,6 +122,10 @@ define([
       $.post(`${api}/logout`);
       window.user = {};
       Backbone.history.navigate('login', true);
+    },
+
+    error: function(error){
+      this.render(new ErrorView());
     },
 
     authenticationCheck: function() {

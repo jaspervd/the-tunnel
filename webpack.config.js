@@ -47,6 +47,12 @@ module.exports = {
     },
 
     {
+      test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+      exclude: /node_modules/,
+      loader: 'url-loader?limit=30000&name=../assets/[name].[ext]'
+    },
+
+    {
       test: /\.(js|jsx)$/,
       exclude: /node_modules/,
       loader: 'babel',

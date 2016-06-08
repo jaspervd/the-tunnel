@@ -4,7 +4,8 @@
 import { api } from 'classes/globals';
 import { Model } from 'backbone';
 
-define([], () => {
+define(['jquery', 'collection/Groups'], ($, Groups) => {
+
   var User = Model.extend({
     id: null,
     username: '',

@@ -1,17 +1,10 @@
-<div class="filters">
-	<select name="filter_country">
-		<option value="" selected disabled hidden>Select country</option>
-			<option value="Afghanistan">Afghanistan</option>
-			<option value="Albania">Albania</option>
-			<option value="United Kingdom">United Kingdom</option>
-			<option value="United States">United States</option>
-			<option value="Vanuatu">Vanuatu</option>
-			<option value="Vatican City">Vatican City</option>
-			<option value="Yemen">Yemen</option>
-			<option value="Zambia">Zambia</option>
-			<option value="Zimbabwe">Zimbabwe</option>
-	</select>
-	@require('_search.hbs')
-</div>
+<ul class="filters">
+  <li>
+    <select class="form-control bfh-countries" name="filter_country" data-country="NL"></select>
+  </li>
+  <li>
+	 @require('_search.hbs')
+  </li>
+</ul>
 <h1>Artists</h1>
 <div class="artists"></div>

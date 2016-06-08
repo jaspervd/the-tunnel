@@ -1,0 +1,23 @@
+$AvenirNext-path: '../assets/fonts/avenir/';
+
+@font-face {
+    font-family: "AvenirNext";
+    src: url($AvenirNext-path + "AvenirNextCondensed-Bold.eot") format("eot");
+    src: url($AvenirNext-path + "AvenirNextCondensed-Bold.ttf") format("truetype"),
+         url($AvenirNext-path + "AvenirNextCondensed-Bold.svg#AvenirNextCondensed-Bold") format("svg");
+}
+
+$FFMetaPro-path: '../assets/fonts/ffmetapro/';
+@font-face {
+    font-family: "FFMetaProNormal";
+    src: url($FFMetaPro-path + "FFMetaPro-CondNormal.eot") format("eot");
+    src: url($FFMetaPro-path + "FFMetaPro-CondNormal.ttf") format("truetype"),
+         url($FFMetaPro-path + "FFMetaPro-CondNormal.svg#FFMetaPro-CondNormal") format("svg");
+}
+
+@font-face {
+    font-family: "FFMetaProLight";
+    src: url($FFMetaPro-path + "FFMetaPro-Light.eot") format("eot");
+    src: url($FFMetaPro-path + "FFMetaPro-Light.ttf") format("truetype"),
+         url($FFMetaPro-path + "FFMetaPro-Light.svg#FFMetaPro-Light") format("svg");
+}

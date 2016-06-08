@@ -1,3 +1,18 @@
 <h1>{{title}}</h1>
+
+{{#ifEquals type "gif"}}
 <img src="{{image_url}}" alt="{{info}}" />
+{{/ifEquals}}
+
+{{#ifEquals type "image"}}
+<img src="{{image_url}}" alt="{{info}}" />
+{{/ifEquals}}
+
+{{#ifEquals type "video"}}
+<video width="320" height="240" controls>
+  <source src="{{image_url}}" type="video/mp4">
+  <source src="{{image_url}}" type="video/ogg">
+  Your browser does not support the video tag.
+</video>
+{{/ifEquals}}
 {{user.username}} || {{likes}}

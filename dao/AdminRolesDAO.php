@@ -32,7 +32,7 @@ class AdminRolesDAO extends DAO {
 	}
 
 	public function insert($data) {
-		$sql = "INSERT INTO `tt_admin_roles` (`title`, `can_edit_users`, `can_approve_groups`, `can_edit_creations`, `can_delete_creations`, `can_feature_creations`, `can_judge_creations`)
+		$sql = "INSERT INTO `tt_admin_roles` (`title`, `can_edit_users`, `can_delete_users`,  `can_edit_roles`, `can_approve_groups`, `can_edit_creations`, `can_delete_creations`, `can_feature_creations`, `can_judge_creations`)
 		VALUES (:title, :can_edit_users, :can_delete_users, :can_edit_roles, :can_approve_groups, :can_edit_creations, :can_delete_creations, :can_feature_creations, :can_judge_creations)";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':title', $data['title']);
@@ -51,7 +51,8 @@ class AdminRolesDAO extends DAO {
 	}
 
 	public function update($data) {
-		$sql = "UPDATE `tt_admin_roles` SET `title` = :title, `can_edit_users` = :can_edit_users, `can_delete_users` = :can_delete_users, `can_edit_roles` = :can_edit_roles, `can_approve_groups` = :can_approve_groups, `can_edit_creations` = :can_edit_creations,
+		$sql = "UPDATE `tt_admin_roles` SET `title` = :title, `can_edit_users` = :can_edit_users, `can_delete_users` = :can_delete_users,
+		`can_edit_roles` = :can_edit_roles, `can_approve_groups` = :can_approve_groups, `can_edit_creations` = :can_edit_creations,
 		`can_delete_creations` = :can_delete_creations, `can_feature_creations` = :can_feature_creations, `can_judge_creations` = :can_judge_creations WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $data['id']);
@@ -65,7 +66,7 @@ class AdminRolesDAO extends DAO {
 		$qry->bindValue(':can_feature_creations', $data['can_feature_creations']);
 		$qry->bindValue(':can_judge_creations', $data['can_judge_creations']);
 		if($qry->execute()) {
-			return $this->selectById($id);
+			return $this->selectById($data['id']);
 		}
 		return array();
 	}

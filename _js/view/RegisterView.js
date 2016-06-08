@@ -28,7 +28,7 @@ define([
       $.post(`${api}/users`, this.$el.find('form').serialize(), (data) => {
         window.user = data;
         Backbone.history.navigate(`artists/${data.id}`, true);
-      }).fail(function(data) {
+      }).fail((data) => {
         console.log('error', data);
       });
     },

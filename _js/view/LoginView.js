@@ -25,7 +25,7 @@ define([
       $.post(`${api}/auth`, this.$el.find('form').serialize(), (data) => {
         window.user = data;
         Backbone.history.navigate('featured', true);
-      }).fail(function() {
+      }).fail(() => {
         console.log('error');
       });
     },

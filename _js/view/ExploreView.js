@@ -15,7 +15,7 @@ define([
     events: {
       'click .submitSearch': 'submitSearch',
       'change .filter_month': 'filterMonth',
-      'change .checkbox': 'changeCheckbox',
+      'change .checkbox': 'changeCheckbox'
     },
 
     filterMonth: function(e){

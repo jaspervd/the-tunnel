@@ -13,8 +13,17 @@ define([
     tagName: 'li',
     className: 'creation',
 
+    events: {
+      '.click .likes': 'likeHandler'
+    },
+
     initialize: function () {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
+    },
+
+    likeHandler: function(e) {
+      e.preventDefault();
+      this.model.like();
     },
 
     render: function () {

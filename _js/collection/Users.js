@@ -11,7 +11,7 @@ define([], () => {
     url: `${api}/users`,
 
     filterUsers: function(query){
-      return this.filter(function(user){
+      return this.filter((user) => {
         return user.get('username').toLowerCase().indexOf(query) > -1 || user.get('firstname').toLowerCase().indexOf(query) > -1 || user.get('lastname').toLowerCase().indexOf(query) > -1;
       });
     }

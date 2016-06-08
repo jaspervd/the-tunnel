@@ -11,7 +11,7 @@ define([], () => {
     url: `${api}/groups`,
 
     filterGroups: function(query){
-      return this.filter(function(group){
+      return this.filter((group) => {
         return group.get('title').toLowerCase().indexOf(query) > -1 || group.get('info').toLowerCase().indexOf(query) > -1;
       });
     }

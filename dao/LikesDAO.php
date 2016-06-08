@@ -20,6 +20,16 @@ class LikesDAO extends DAO {
 		return array();
 	}
 
+  public function selectByUserId($user_id) {
+    $sql = "SELECT * FROM `tt_likes` WHERE `user_id` = :user_id";
+    $qry = $this->pdo->prepare($sql);
+    $qry->bindValue(':user_id', $user_id);
+    if($qry->execute()) {
+      return $qry->fetchAll(pdo::FETCH_ASSOC);
+    }
+    return array();
+  }
+
 	public function selectByCreationId($creation_id) {
 		$sql = "SELECT * FROM `tt_likes` WHERE `creation_id` = :creation_id";
 		$qry = $this->pdo->prepare($sql);

@@ -159,6 +159,19 @@ $app->get('/api/users/{id}/groups', function ($request, $response, $args) {
   return $response->write(json_encode($groups))->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/api/users/{id}/creations', function ($request, $response, $args) {
+  $usersDAO = new UsersDAO();
+  $user = $usersDAO->selectById($args['id']);
+  $creations = array();
+  if(empty($user)) {
+    $response = $response->withStatus(404);
+  } else {
+    $creationsDAO = new CreationsDAO();
+    $creations = $creationsDAO->selectByUserId($user['id']);
+    $response = $response->withStatus(200);
+  }
+  return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
+});
 
 $app->patch('/api/users/{id}/hide', function ($request, $response, $args) {
 	if(authenticated() && checkPrivilige($_SESSION['tt_user']['id'], 'can_edit_users')) {
@@ -470,6 +483,34 @@ $app->get('/api/groups/{id}', function ($request, $response, $args) {
 		$response = $response->withStatus(200);
 	}
 	return $response->write(json_encode($group))->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/api/groups/{id}/creations', function ($request, $response, $args) {
+  $groupsDAO = new GroupsDAO();
+  $group = $groupsDAO->selectById($args['id']);
+  $creations = array();
+  if(empty($group)) {
+    $response = $response->withStatus(404);
+  } else {
+    $creationsDAO = new CreationsDAO();
+    $creations = $creationsDAO->selectGroupId($group['id']);
+    $response = $response->withStatus(200);
+  }
+  return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/api/groups/{id}/users', function ($request, $response, $args) {
+  $groupsDAO = new GroupsDAO();
+  $group = $groupsDAO->selectById($args['id']);
+  $users = array();
+  if(empty($group)) {
+    $response = $response->withStatus(404);
+  } else {
+    $usersDAO = new UsersDAO();
+    $users = $usersDAO->selectByGroupId($group['id']);
+    $response = $response->withStatus(200);
+  }
+  return $response->write(json_encode($users))->withHeader('Content-Type', 'application/json');
 });
 
 $app->put('/api/groups/{id}', function ($request, $response, $args) {

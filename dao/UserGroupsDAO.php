@@ -21,6 +21,16 @@ class UserGroupsDAO extends DAO {
     return array();
   }
 
+  public function selectByGroupId($id){
+    $sql = "SELECT * FROM `tt_user_groups` WHERE `group_id` = :id";
+    $qry = $this->pdo->prepare($sql);
+    $qry->bindValue(':id', $id);
+    if($qry->execute()){
+      return $qry->fetchAll(pdo::FETCH_ASSOC);
+    }
+    return array();
+  }
+
   public function insert($data) {
     $sql = "INSERT INTO `tt_user_groups` (`user_id`, `group_id`, `approved`) VALUES (:user_id, :group_id, :approved)";
     $qry = $this->pdo->prepare($sql);

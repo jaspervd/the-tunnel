@@ -2,11 +2,13 @@
 
 let webpack = require('webpack');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
+let BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 let path = require('path');
 
 let config = require('./_config'); //paths config..
 
 let NODE_ENV = '\'development\'';
+let localHostUrl = path.join(__dirname, '/').replace('/Applications/MAMP/htdocs/', '');
 
 process.argv.forEach(arg => {
   if(arg === '-p' || arg === '-d'){
@@ -106,6 +108,9 @@ module.exports = {
     //react smaller build
     new webpack.DefinePlugin({
       'process.env': {NODE_ENV: NODE_ENV}
+    }),
+    new BrowserSyncPlugin({
+      proxy: path.join('localhost:8888', localHostUrl)
     })
     ],
     resolve: {

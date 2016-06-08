@@ -14,10 +14,13 @@
 	window.app = window.app || {};
 	window.app.basename = '<?php echo $basePath;?>';
 	</script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/bootstrap-formhelpers.min.js"></script>
-  <script src="js/backbone-validation-amd-min.js"></script>
-  <script src="js/script.js"></script>
-</body>
-</html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap-formhelpers.min.js"></script>
+	<script src="js/backbone-validation-amd-min.js"></script>
+	<script src="js/script.js"></script>
+  	<script id="__bs_script__">//<![CDATA[
+  	document.write("<script async src='http://HOST:8890/browser-sync/browser-sync-client.2.12.12.js'><\/script>".replace("HOST", location.hostname));
+  	//]]></script>
+  </body>
+  </html>

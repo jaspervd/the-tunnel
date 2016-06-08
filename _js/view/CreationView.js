@@ -14,7 +14,7 @@ define([
     className: 'creation',
 
     events: {
-      '.click .likes': 'likeHandler'
+      'click .heart': 'likeHandler'
     },
 
     initialize: function () {

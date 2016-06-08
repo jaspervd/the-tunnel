@@ -17,7 +17,7 @@ define(['jquery'], ($) => {
     urlRoot: `${api}/creations/`,
 
     like: function() {
-      $.post(`${api}/creations/${this.model.get('id')}/like`, (data) => {
+      $.post(`${this.urlRoot}${this.get('id')}/like`, (data) => {
         return data;
       });
     }

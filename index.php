@@ -563,6 +563,61 @@ $app->delete('/api/scores/{id}', function ($request, $response, $args) {
 	}
 });
 
+// ROLES
+
+$app->get('/api/roles', function ($request, $response, $args) {
+	if(authenticated() && checkPrivilige($_SESSION['tt_user']['id'], 'can_edit_roles')) {
+		$adminRolesDAO = new AdminRolesDAO();
+		$roles = $adminRolesDAO->selectAll();
+		return $response->write(json_encode($roles))->withHeader('Content-Type', 'application/json');
+	} else {
+		return $response->withStatus(403);
+	}
+});
+
+$app->post('/api/roles', function ($request, $response, $args) {
+	if(authenticated() && checkPrivilige($_SESSION['tt_user']['id'], 'can_edit_roles')) {
+		$adminRolesDAO = new AdminRolesDAO();
+		$post = $request->getParsedBody();
+		$role = $adminRolesDAO->insert($post);
+		if(empty($role)) {
+			$response = $response->withStatus(404);
+		} else {
+			$response = $response->withStatus(201);
+		}
+		return $response->write(json_encode($role))->withHeader('Content-Type', 'application/json');
+	} else {
+		return $response->withStatus(403);
+	}
+});
+
+$app->put('/api/roles/{id}', function ($request, $response, $args) {
+	if(authenticated() && checkPrivilige($_SESSION['tt_user']['id'], 'can_edit_roles')) {
+		$adminRolesDAO = new AdminRolesDAO();
+		$post = $request->getParsedBody();
+		$post['id'] = $args['id'];
+		$role = $adminRolesDAO->update($post);
+		if(empty($role)) {
+			$response = $response->withStatus(404);
+		} else {
+			$response = $response->withStatus(201);
+		}
+		return $response->write(json_encode($role))->withHeader('Content-Type', 'application/json');
+	} else {
+		return $response->withStatus(403);
+	}
+});
+
+$app->delete('/api/roles/{id}', function ($request, $response, $args) {
+	if(authenticated() && checkPrivilige($_SESSION['tt_user']['id'], 'can_edit_roles')) {
+		$adminRolesDAO = new AdminRolesDAO();
+		$role = $adminRolesDAO->delete($args['id']);
+		return $response->write(json_encode($role))->withHeader('Content-Type', 'application/json');
+	} else {
+		return $response->withStatus(403);
+	}
+});
+
 function authenticated() {
 	if(!empty($_SESSION['tt_user'])) {
 		$usersDAO = new UsersDAO();

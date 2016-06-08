@@ -31,33 +31,39 @@ class AdminRolesDAO extends DAO {
 		return array();
 	}
 
-	public function insert($title, $can_create_admin, $can_approve_groups, $can_edit_creations, $can_delete_creations, $can_feature_creations, $can_judge_creations) {
-		$sql = "INSERT INTO `tt_admin_roles` (`title`, `can_create_admin`, `can_approve_groups`, `can_edit_creations`, `can_delete_creations`, `can_feature_creations`, `can_judge_creations`) VALUES (:title, :can_create_admin, :can_approve_groups, :can_edit_creations, :can_delete_creations, :can_feature_creations, :can_judge_creations)";
+	public function insert($data) {
+		$sql = "INSERT INTO `tt_admin_roles` (`title`, `can_edit_users`, `can_approve_groups`, `can_edit_creations`, `can_delete_creations`, `can_feature_creations`, `can_judge_creations`)
+		VALUES (:title, :can_edit_users, :can_delete_users, :can_edit_roles, :can_approve_groups, :can_edit_creations, :can_delete_creations, :can_feature_creations, :can_judge_creations)";
 		$qry = $this->pdo->prepare($sql);
-		$qry->bindValue(':title', $title);
-		$qry->bindValue(':can_create_admin', $can_create_admin);
-		$qry->bindValue(':can_approve_groups', $can_approve_groups);
-		$qry->bindValue(':can_edit_creations', $can_edit_creations);
-		$qry->bindValue(':can_delete_creations', $can_delete_creations);
-		$qry->bindValue(':can_feature_creations', $can_feature_creations);
-		$qry->bindValue(':can_judge_creations', $can_judge_creations);
+		$qry->bindValue(':title', $data['title']);
+		$qry->bindValue(':can_edit_users', $data['can_edit_users']);
+		$qry->bindValue(':can_delete_users', $data['can_delete_users']);
+		$qry->bindValue(':can_edit_roles', $data['can_edit_roles']);
+		$qry->bindValue(':can_approve_groups', $data['can_approve_groups']);
+		$qry->bindValue(':can_edit_creations', $data['can_edit_creations']);
+		$qry->bindValue(':can_delete_creations', $data['can_delete_creations']);
+		$qry->bindValue(':can_feature_creations', $data['can_feature_creations']);
+		$qry->bindValue(':can_judge_creations', $data['can_judge_creations']);
 		if($qry->execute()) {
 			return $this->selectById($this->pdo->lastInsertId());
 		}
 		return array();
 	}
 
-	public function update($id, $title, $can_create_admin, $can_approve_groups, $can_edit_creations, $can_delete_creations, $can_feature_creations, $can_judge_creations) {
-		$sql = "UPDATE `tt_admin_roles` SET `title` = :title, `can_create_admin` = :can_create_admin, `can_approve_groups` = :can_approve_groups, `can_edit_creations` = :can_edit_creations, `can_delete_creations` = :can_delete_creations, `can_feature_creations` = :can_feature_creations, `can_judge_creations` = :can_judge_creations WHERE `id` = :id";
+	public function update($data) {
+		$sql = "UPDATE `tt_admin_roles` SET `title` = :title, `can_edit_users` = :can_edit_users, `can_delete_users` = :can_delete_users, `can_edit_roles` = :can_edit_roles, `can_approve_groups` = :can_approve_groups, `can_edit_creations` = :can_edit_creations,
+		`can_delete_creations` = :can_delete_creations, `can_feature_creations` = :can_feature_creations, `can_judge_creations` = :can_judge_creations WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
-		$qry->bindValue(':id', $id);
-		$qry->bindValue(':title', $title);
-		$qry->bindValue(':can_create_admin', $can_create_admin);
-		$qry->bindValue(':can_approve_groups', $can_approve_groups);
-		$qry->bindValue(':can_edit_creations', $can_edit_creations);
-		$qry->bindValue(':can_delete_creations', $can_delete_creations);
-		$qry->bindValue(':can_feature_creations', $can_feature_creations);
-		$qry->bindValue(':can_judge_creations', $can_judge_creations);
+		$qry->bindValue(':id', $data['id']);
+		$qry->bindValue(':title', $data['title']);
+		$qry->bindValue(':can_edit_users', $data['can_edit_users']);
+		$qry->bindValue(':can_delete_users', $data['can_delete_users']);
+		$qry->bindValue(':can_edit_roles', $data['can_edit_roles']);
+		$qry->bindValue(':can_approve_groups', $data['can_approve_groups']);
+		$qry->bindValue(':can_edit_creations', $data['can_edit_creations']);
+		$qry->bindValue(':can_delete_creations', $data['can_delete_creations']);
+		$qry->bindValue(':can_feature_creations', $data['can_feature_creations']);
+		$qry->bindValue(':can_judge_creations', $data['can_judge_creations']);
 		if($qry->execute()) {
 			return $this->selectById($id);
 		}

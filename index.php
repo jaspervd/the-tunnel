@@ -146,31 +146,31 @@ $app->get('/api/users/{id}/likes', function ($request, $response, $args) {
 });
 
 $app->get('/api/users/{id}/groups', function ($request, $response, $args) {
-  $usersDAO = new UsersDAO();
-  $user = $usersDAO->selectById($args['id']);
-  $groups = array();
-  if(empty($user)) {
-    $response = $response->withStatus(404);
-  } else {
-    $groupsDAO = new GroupsDAO();
-    $groups = $groupsDAO->selectByUserId($user['id']);
-    $response = $response->withStatus(200);
-  }
-  return $response->write(json_encode($groups))->withHeader('Content-Type', 'application/json');
+	$usersDAO = new UsersDAO();
+	$user = $usersDAO->selectById($args['id']);
+	$groups = array();
+	if(empty($user)) {
+		$response = $response->withStatus(404);
+	} else {
+		$groupsDAO = new GroupsDAO();
+		$groups = $groupsDAO->selectByUserId($user['id']);
+		$response = $response->withStatus(200);
+	}
+	return $response->write(json_encode($groups))->withHeader('Content-Type', 'application/json');
 });
 
 $app->get('/api/users/{id}/creations', function ($request, $response, $args) {
-  $usersDAO = new UsersDAO();
-  $user = $usersDAO->selectById($args['id']);
-  $creations = array();
-  if(empty($user)) {
-    $response = $response->withStatus(404);
-  } else {
-    $creationsDAO = new CreationsDAO();
-    $creations = $creationsDAO->selectByUserId($user['id']);
-    $response = $response->withStatus(200);
-  }
-  return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
+	$usersDAO = new UsersDAO();
+	$user = $usersDAO->selectById($args['id']);
+	$creations = array();
+	if(empty($user)) {
+		$response = $response->withStatus(404);
+	} else {
+		$creationsDAO = new CreationsDAO();
+		$creations = $creationsDAO->selectByUserId($user['id']);
+		$response = $response->withStatus(200);
+	}
+	return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
 });
 
 $app->patch('/api/users/{id}/hide', function ($request, $response, $args) {
@@ -239,6 +239,7 @@ $app->get('/api/creations', function ($request, $response, $args) {
 	foreach($creations as $key => $value) {
 		$creations[$key]['user'] = $usersDAO->selectById($creations[$key]['user_id']);
 		$creations[$key]['likes'] = $likesDAO->countByCreationId($creations[$key]['id']);
+		$creations[$key]['alreadyLiked'] = !empty($likesDAO->selectByInputAndCreationId((empty($_SESSION['tt_user'])? $_SERVER['REMOTE_ADDR'] : $_SESSION['tt_user']['id']), $creations[$key]['id']));
 	}
 	return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
 });
@@ -308,6 +309,7 @@ $app->get('/api/creations/{id}', function ($request, $response, $args) {
 		$likesDAO = new LikesDAO();
 		$creation['user'] = $usersDAO->selectById($creation['user_id']);
 		$creation['likes'] = $likesDAO->countByCreationId($creation['id']);
+		$creation['alreadyLiked'] = !empty($likesDAO->selectByInputAndCreationId((empty($_SESSION['tt_user'])? $_SERVER['REMOTE_ADDR'] : $_SESSION['tt_user']['id']), $creation['id']));
 
 		$response = $response->withStatus(200);
 	}
@@ -349,21 +351,6 @@ $app->patch('/api/creations/{id}/feature', function ($request, $response, $args)
 	if(authenticated() && checkPrivilige($_SESSION['tt_user']['id'], 'can_feature_creations')) {
 		$creationsDAO = new CreationsDAO();
 		$creation = $creationsDAO->setFeatured($creation['id'], 1);
-		if(empty($creation)) {
-			$response = $response->withStatus(404);
-		} else {
-			$response = $response->withStatus(200);
-		}
-		return $response->write(json_encode($creation))->withHeader('Content-Type', 'application/json');
-	} else {
-		return $response->withStatus(403);
-	}
-});
-
-$app->patch('/api/creations/{id}/elect', function ($request, $response, $args) {
-	if(authenticated() && checkPrivilige($_SESSION['tt_user']['id'], 'can_elect_creations')) {
-		$creationsDAO = new CreationsDAO();
-		$creation = $creationsDAO->setElected($creation['id'], 1);
 		if(empty($creation)) {
 			$response = $response->withStatus(404);
 		} else {
@@ -463,9 +450,9 @@ $app->post('/api/groups', function ($request, $response, $args) {
 		if(empty($group)) {
 			$response = $response->withStatus(404);
 		} else {
-      $user_groups = new UserGroupsDAO();
-      $group['approvedToGroup'] = 1;
-      $user_group = $user_groups->insert($group);
+			$user_groups = new UserGroupsDAO();
+			$group['approvedToGroup'] = 1;
+			$user_group = $user_groups->insert($group);
 			$response = $response->withStatus(201);
 		}
 		return $response->write(json_encode($group))->withHeader('Content-Type', 'application/json');
@@ -486,31 +473,31 @@ $app->get('/api/groups/{id}', function ($request, $response, $args) {
 });
 
 $app->get('/api/groups/{id}/creations', function ($request, $response, $args) {
-  $groupsDAO = new GroupsDAO();
-  $group = $groupsDAO->selectById($args['id']);
-  $creations = array();
-  if(empty($group)) {
-    $response = $response->withStatus(404);
-  } else {
-    $creationsDAO = new CreationsDAO();
-    $creations = $creationsDAO->selectGroupId($group['id']);
-    $response = $response->withStatus(200);
-  }
-  return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
+	$groupsDAO = new GroupsDAO();
+	$group = $groupsDAO->selectById($args['id']);
+	$creations = array();
+	if(empty($group)) {
+		$response = $response->withStatus(404);
+	} else {
+		$creationsDAO = new CreationsDAO();
+		$creations = $creationsDAO->selectGroupId($group['id']);
+		$response = $response->withStatus(200);
+	}
+	return $response->write(json_encode($creations))->withHeader('Content-Type', 'application/json');
 });
 
 $app->get('/api/groups/{id}/users', function ($request, $response, $args) {
-  $groupsDAO = new GroupsDAO();
-  $group = $groupsDAO->selectById($args['id']);
-  $users = array();
-  if(empty($group)) {
-    $response = $response->withStatus(404);
-  } else {
-    $usersDAO = new UsersDAO();
-    $users = $usersDAO->selectByGroupId($group['id']);
-    $response = $response->withStatus(200);
-  }
-  return $response->write(json_encode($users))->withHeader('Content-Type', 'application/json');
+	$groupsDAO = new GroupsDAO();
+	$group = $groupsDAO->selectById($args['id']);
+	$users = array();
+	if(empty($group)) {
+		$response = $response->withStatus(404);
+	} else {
+		$usersDAO = new UsersDAO();
+		$users = $usersDAO->selectByGroupId($group['id']);
+		$response = $response->withStatus(200);
+	}
+	return $response->write(json_encode($users))->withHeader('Content-Type', 'application/json');
 });
 
 $app->put('/api/groups/{id}', function ($request, $response, $args) {
@@ -545,21 +532,21 @@ $app->put('/api/groups/{id}', function ($request, $response, $args) {
 });
 
 $app->post('/api/groups/{id}/join', function ($request, $response, $args) {
-  if(authenticated()) {
-    $userGroupsDAO = new UserGroupsDAO();
-    $post['id'] = $args['id'];
-    $post['creator_id'] = $_SESSION['tt_user']['id'];
-    $post['approvedToGroup'] = 0;
-    $userGroup = $userGroupsDAO->insert($post);
-    if(empty($userGroup)) {
-      $response = $response->withStatus(404);
-    } else {
-      $response = $response->withStatus(200);
-    }
-    return $response->write(json_encode($userGroup))->withHeader('Content-Type', 'application/json');
-  } else {
-    return $response->withStatus(403);
-  }
+	if(authenticated()) {
+		$userGroupsDAO = new UserGroupsDAO();
+		$post['id'] = $args['id'];
+		$post['creator_id'] = $_SESSION['tt_user']['id'];
+		$post['approvedToGroup'] = 0;
+		$userGroup = $userGroupsDAO->insert($post);
+		if(empty($userGroup)) {
+			$response = $response->withStatus(404);
+		} else {
+			$response = $response->withStatus(200);
+		}
+		return $response->write(json_encode($userGroup))->withHeader('Content-Type', 'application/json');
+	} else {
+		return $response->withStatus(403);
+	}
 });
 
 $app->patch('/api/groups/{id}/approve', function ($request, $response, $args) {

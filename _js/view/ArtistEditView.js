@@ -35,10 +35,13 @@ define([
 
     submitHandler: function(e) {
       e.preventDefault();
+      console.log(e.currentTarget);
       $.ajax({
         url: `${api}/users/${this.artist_id}`,
         type: 'PUT',
-        data: $(e.currentTarget).serialize()
+        data: new FormData(e.currentTarget),
+        contentType: false,
+        processData: false
       }).success((data) => {
         Backbone.history.navigate(`artists/${data.id}`, true);
       }).fail(() => {

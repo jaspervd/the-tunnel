@@ -22,6 +22,8 @@ define([
 
     submitHandler: function(e) {
       e.preventDefault();
+      var fd = new FormData(e.currentTarget);
+      console.log(fd.entries());
       $.ajax({
         url: `${api}/creations`,
         type: 'POST',

@@ -56,14 +56,13 @@ class UsersDAO extends DAO {
 	}
 
 	public function insert($data) {
-		$sql = "INSERT INTO `tt_users` (`username`, `password`, `email`, `firstname`, `lastname`, `country`) VALUES (:username, :password, :email, :firstname, :lastname, :country)";
+		$sql = "INSERT INTO `tt_users` (`username`, `password`, `email`, `firstname`, `lastname`) VALUES (:username, :password, :email, :firstname, :lastname)";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':username', $data['username']);
 		$qry->bindValue(':password', password_hash($data['password'], PASSWORD_BCRYPT));
 		$qry->bindValue(':email', $data['email']);
 		$qry->bindValue(':firstname', $data['firstname']);
 		$qry->bindValue(':lastname', $data['lastname']);
-		$qry->bindValue(':country', $data['country']);
 		if($qry->execute()) {
 			return $this->selectById($this->pdo->lastInsertId());
 		}
@@ -71,7 +70,7 @@ class UsersDAO extends DAO {
 	}
 
 	public function update($data) {
-		$sql = "UPDATE `tt_users` SET `username` = :username, `password` = :password, `email` = :email, `firstname` = :firstname, `lastname` = :lastname, `bio` = :bio, `country` = :country WHERE `id` = :id";
+		$sql = "UPDATE `tt_users` SET `username` = :username, `password` = :password, `email` = :email, `firstname` = :firstname, `lastname` = :lastname, `bio` = :bio, `image_url` = :image_url WHERE `id` = :id";
 		$qry = $this->pdo->prepare($sql);
 		$qry->bindValue(':id', $data['id']);
 		$qry->bindValue(':username', $data['username']);
@@ -80,7 +79,7 @@ class UsersDAO extends DAO {
 		$qry->bindValue(':firstname', $data['firstname']);
 		$qry->bindValue(':lastname', $data['lastname']);
 		$qry->bindValue(':bio', $data['bio']);
-		$qry->bindValue(':country', $data['country']);
+    $qry->bindValue(':image_url', $data['image_url']);
 		if($qry->execute()) {
 			return $this->selectById($data['id']);
 		}
@@ -132,9 +131,6 @@ class UsersDAO extends DAO {
 		}
 		if(empty($data['lastname'])) {
 			$errors['lastname'] = 'Gelieve een achternaam op te geven';
-		}
-		if(empty($data['country'])) {
-			$errors['country'] = 'Gelieve je land op te geven';
 		}
 		return $errors;
 	}

@@ -11,20 +11,20 @@ define([
     template: template,
     tagName: 'nav',
 
-    events: {
-      'click .navigation a': 'clickHandler'
-    },
-
     initialize: function () {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
+      this.currentPage = '';
+      console.log(this.currentPage);
     },
 
-    clickHandler: function(e) {
-      $(e.currentTarget).addClass('active');
+    setCurrentPage: function(page) {
+      if(page !== this.currentPage) {
+        this.currentPage = page;
+      }
     },
 
     render: function () {
-      this.$el.html(this.template(window.user));
+      this.$el.html(this.template({user: window.user, currentPage: this.currentPage}));
       return this;
     }
   });

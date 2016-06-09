@@ -55,50 +55,62 @@ define([
     },
 
     home: function() {
+      this.navigationView.setCurrentPage('featured');
       this.render(new HomeView());
     },
 
     explore: function() {
+      this.navigationView.setCurrentPage('explore');
       this.render(new ExploreView());
     },
 
     addcreation: function() {
+      this.navigationView.setCurrentPage('creations');
       this.render(new AddCreationView());
     },
 
     creation: function(id) {
+      this.navigationView.setCurrentPage('creations');
       this.render(new CreationDetailView({creation_id: id}));
     },
 
     artists: function() {
+      this.navigationView.setCurrentPage('artists');
       this.render(new ArtistsView());
     },
 
     artist: function(id) {
+      this.navigationView.setCurrentPage('artists');
       this.render(new ArtistDetailView({artist_id: id}));
     },
 
     artistEdit: function(id) {
+      this.navigationView.setCurrentPage('artists');
       this.render(new ArtistEditView({artist_id: id}));
     },
 
     groups: function() {
+      this.navigationView.setCurrentPage('groups');
       this.render(new GroupsView());
     },
 
     group: function(id) {
+      this.navigationView.setCurrentPage('groups');
       this.render(new GroupDetailView({group_id: id}));
     },
 
     addgroup: function(){
+      this.navigationView.setCurrentPage('groups');
       this.render(new AddGroupView());
     },
 
     groupartists: function(id) {
+      this.navigationView.setCurrentPage('groups');
       this.render(new GroupArtistsDetailView({group_id: id}));
     },
 
     info: function() {
+      this.navigationView.setCurrentPage('info');
       this.render(new InfoView());
     },
 
@@ -106,6 +118,7 @@ define([
       if(window.user.id > 0) {
         Backbone.history.navigate(`artists/${window.user.id}`, true);
       } else {
+        this.navigationView.setCurrentPage('login');
         this.render(new LoginView());
       }
     },
@@ -114,6 +127,7 @@ define([
       if(window.user.id > 0) {
         Backbone.history.navigate(`artists/${window.user.id}`, true);
       } else {
+        this.navigationView.setCurrentPage('register');
         this.render(new RegisterView());
       }
     },

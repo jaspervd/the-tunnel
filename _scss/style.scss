@@ -39,10 +39,14 @@ body {
 form {
   width: 80%;
   margin: 0 auto;
-  text-align: center;
 
   p {
     margin-bottom: 22px;
+  }
+
+  .left, .right {
+    width: 50%;
+    padding: 0 10px;
   }
 
   input:not(.button) {
@@ -56,6 +60,7 @@ form {
     display: block;
     color: $pink;
     margin: 8px 0;
+    text-transform: uppercase;
   }
 }
 

@@ -1,40 +1,44 @@
 <form method="post" action="">
-	<p>
-		<label for="username">Gebruikersnaam</label>
+	<p class="left">
+		<label for="username">Username</label>
 		<input type="text" name="username" id="username" class="registerInput"/>
     <span class="help-block hidden"></span>
 	</p>
-	<p>
-		<label for="email">E-mailadres</label>
+	<p class="right">
+		<label for="email">Email</label>
 		<input type="email" name="email" id="email" class="registerInput"/>
     <span class="help-block hidden"></span>
 	</p>
-	<p>
-		<label for="password">Wachtwoord</label>
+	<p class="left">
+		<label for="password">Password</label>
 		<input type="password" name="password" id="password" class="registerInput"/>
     <span class="help-block hidden"></span>
 	</p>
-	<p>
-		<label for="password_confirm">Wachtwoord herhalen</label>
+	<p class="right">
+		<label for="password_confirm">Confirm password</label>
 		<input type="password" name="password_confirm" id="password_confirm" class="registerInput"/>
     <span class="help-block hidden"></span>
 	</p>
-	<p>
-		<label for="firstname">Voornaam</label>
+	<p class="left">
+		<label for="firstname">First name</label>
 		<input type="text" name="firstname" id="firstname" class="registerInput"/>
     <span class="help-block hidden"></span>
 	</p>
-	<p>
-		<label for="lastname">Achternaam</label>
+	<p class="right">
+		<label for="lastname">Last name</label>
 		<input type="text" name="lastname" id="lastname" class="registerInput" />
     <span class="help-block hidden"></span>
 	</p>
-	<p>
-    <label for="country">Land</label>
+	<p class="left">
+    <label for="country">Country</label>
     <select class="form-control bfh-countries" name="country" id="country" data-country="NL" class="registerInput"></select>
     <span class="help-block hidden"></span>
 	</p>
-	<p>
-		<input type="submit" value="Registreer" />
+	<p class="right">
+		<input type="submit" value="Register" class="button right" />
+	</p>
+	<div class="clear"></div>
+	<p class="tcenter">
+		<a href="#login">Already have an account?</a>
 	</p>
 </form>

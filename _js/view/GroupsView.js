@@ -11,6 +11,8 @@ define([
 ], ($, _, Backbone, template, Groups, GroupView) => {
   var GroupsView = Backbone.View.extend({
     template: template,
+    tagName: 'section',
+    className: 'groups',
 
     events: {
       'submit .search': 'submitSearch',

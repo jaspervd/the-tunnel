@@ -11,6 +11,8 @@ define([
 ], ($, _, Backbone, template, Users, ArtistView) => {
   var ArtistsView = Backbone.View.extend({
     template: template,
+    tagName: 'section',
+    className: 'artists',
 
     events: {
       'submit .search': 'submitSearch',

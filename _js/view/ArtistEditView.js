@@ -35,10 +35,9 @@ define([
 
     submitHandler: function(e) {
       e.preventDefault();
-      console.log(e.currentTarget);
       $.ajax({
         url: `${api}/users/${this.artist_id}`,
-        type: 'PUT',
+        type: 'POST',
         data: new FormData(e.currentTarget),
         contentType: false,
         processData: false

@@ -105,7 +105,7 @@ $app->get('/api/users/{id}', function ($request, $response, $args) {
   return $response->write(json_encode($user))->withHeader('Content-Type', 'application/json');
 });
 
-$app->put('/api/users/{id}', function ($request, $response, $args) {
+$app->post('/api/users/{id}', function ($request, $response, $args) {
   if(authenticated()) {
     if(!($_SESSION['tt_user']['id'] === $args['id'] || !checkPrivilige($_SESSION['tt_user']['id'], 'can_edit_users'))) {
       return $response->withStatus(403);
@@ -114,11 +114,11 @@ $app->put('/api/users/{id}', function ($request, $response, $args) {
     $usersDAO = new UsersDAO();
     $user = $usersDAO->selectById($args['id']);
     if(!empty($user)) {
-
       $post = $request->getParsedBody();
       $post['id'] = $user['id'];
       $post['image_url'] = '';
       $imageMimeTypes = array('image/jpeg', 'image/png');
+
       if (!empty($_FILES['image']) && in_array($_FILES['image']['type'], $imageMimeTypes)) {
         $targetFile = WWW_ROOT . 'upload' . DIRECTORY_SEPARATOR . $_FILES['image']['name'];
         $pos = strrpos($targetFile, '.');
@@ -133,8 +133,7 @@ $app->put('/api/users/{id}', function ($request, $response, $args) {
 
         $post['image_url'] = str_replace(WWW_ROOT, '', $targetFile);
       }
-      print_r($request->getParsedBody);
-      die();
+
       $updatedUser = $usersDAO->update($post);
       if(empty($updatedUser)) {
         $response = $response->withStatus(404);

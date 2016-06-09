@@ -11,6 +11,7 @@ define([
 ], ($, _, Backbone, template, Creations, CreationView) => {
   var HomeView = Backbone.View.extend({
     template: template,
+    className: 'featured',
 
     initialize: function () {
       //_.bindAll.apply(_, [this].concat(_.functions(this)));

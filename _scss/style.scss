@@ -220,3 +220,43 @@ h2 {
 .container > section, .container > div {
   padding: 0 $padding;
 }
+
+/* Explore */
+
+.featured {
+  .addwork {
+    background-image: url($image_source + 'logo.png');
+    font-family: $font-button;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 2em;
+    color: $darkgrey;
+    letter-spacing: 8px;
+    display: inline-block;
+    position: relative;
+
+    span {
+      padding: 6px;
+    }
+
+    .add {
+      background-color: $white;
+    }
+
+    .work {
+      background-color: $yellow;
+      position: absolute;
+      left: 20px;
+    }
+
+    &:hover {
+      .add {
+        background-color: $yellow;
+      }
+
+      .work {
+        background-color: $white;
+      }
+    }
+  }
+}

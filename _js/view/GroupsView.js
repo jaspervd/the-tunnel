@@ -13,7 +13,8 @@ define([
     template: template,
 
     events: {
-      'click .submitSearch': 'submitSearch'
+      'submit .search': 'submitSearch',
+      'click .icon': 'submitSearch'
     },
 
     submitSearch: function(e){

@@ -72,6 +72,8 @@ form {
   font-size: 1.4em;
   padding: 4px 40px;
   background-color: $green;
+  color: $darkgrey;
+  text-decoration: none;
 
   &:hover {
     color: $white;

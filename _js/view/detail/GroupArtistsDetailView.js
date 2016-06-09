@@ -13,6 +13,8 @@ define([
   var GroupArtistsDetailView = Backbone.View.extend({
     template: template,
     group_id: null,
+    tagName: 'section',
+    className: 'detailview',
 
     initialize: function (options) {
       this.options = options;
@@ -39,7 +41,7 @@ define([
     },
 
     render: function () {
-      this.$el.html(this.template());
+      this.$el.html(this.template(this.model.toJSON()));
       return this;
     }
   });

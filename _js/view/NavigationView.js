@@ -14,7 +14,6 @@ define([
     initialize: function () {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
       this.currentPage = '';
-      console.log(this.currentPage);
     },
 
     setCurrentPage: function(page) {

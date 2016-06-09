@@ -8,8 +8,10 @@ define([
   'model/User',
   '_hbs/artistdetail.hbs',
   'collection/Groups',
-  'view/GroupView'
-], ($, _, Backbone, User, template, Groups, GroupView) => {
+  'view/GroupView',
+  'collection/Creations',
+  'view/CreationView'
+], ($, _, Backbone, User, template, Groups, GroupView, Creations, CreationView) => {
   var ArtistDetailView = Backbone.View.extend({
     template: template,
     artist_id: null,
@@ -29,7 +31,22 @@ define([
       this.model.fetch();
       this.model.on('reset sync', this.render, this);
 
+      this.getCreations();
       this.getGroups();
+      this.getLikes();
+    },
+
+    getCreations: function() {
+      $.get(`${this.model.urlRoot}${this.model.get('id')}/creations`, (data) => {
+        this.renderCreations(new Creations(data));
+      });
+    },
+
+    renderCreations: function(creations) {
+      creations.each((creation) => {
+        var view = new CreationView({ model: creation });
+        this.$el.find('.creations').append(view.render().$el);
+      });
     },
 
     getGroups: function() {
@@ -39,10 +56,22 @@ define([
     },
 
     renderGroups: function(groups) {
-      this.render();
       groups.each((group) => {
         var view = new GroupView({ model: group });
         this.$el.find('.groups').append(view.render().$el);
+      });
+    },
+
+    getLikes: function() {
+      $.get(`${this.model.urlRoot}${this.model.get('id')}/likes`, (data) => {
+        this.renderLikes(new Creations(data));
+      });
+    },
+
+    renderLikes: function(creations) {
+      creations.each((creation) => {
+        var view = new CreationView({ model: creation });
+        this.$el.find('.new').append(view.render().$el);
       });
     },
 

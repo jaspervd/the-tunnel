@@ -34,6 +34,54 @@ body {
   z-index: -1;
 }
 
+/* Forms */
+
+form {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+
+  p {
+    margin-bottom: 22px;
+  }
+
+  input:not(.button) {
+    width: 100%;
+    border: 1px solid $lightgrey;
+    padding: 12px;
+    font-size: 1.2em;
+  }
+
+  label {
+    display: block;
+    color: $pink;
+    margin: 8px 0;
+  }
+}
+
+.button {
+  cursor: pointer;
+  font-family: $font-button;
+  text-transform: uppercase;
+  border: none;
+  font-size: 1.4em;
+  padding: 4px 40px;
+  background-color: $green;
+
+  &:hover {
+    color: $white;
+  }
+}
+
+p a {
+  color: inherit;
+  text-decoration: underline;
+
+  &:hover {
+    color: $pink;
+  }
+}
+
 /* Navigation */
 
 nav {

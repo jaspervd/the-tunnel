@@ -20,7 +20,6 @@ define([
     },
 
     clickHandler: function(e) {
-      console.log('piemel', e.currentTarget);
       $(e.currentTarget).addClass('active');
     },
 

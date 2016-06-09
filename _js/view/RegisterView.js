@@ -12,6 +12,8 @@ define([
 ], ($, _, Backbone, template, Users) => {
   var RegisterView = Backbone.View.extend({
     template: template,
+    tagName: 'section',
+    className: 'register',
 
     events: {
       'submit form': 'submitHandler'

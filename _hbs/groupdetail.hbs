@@ -1,11 +1,16 @@
-<h1>{{title}}</h1>
-<img src="{{image_url}}" alt="{{title}}" />
-{{info}}
-<ul>
-	{{#each users}}
-	<li><img src="{{image_url}}" alt="{{username}}" /></li>
-	{{/each}}
-</ul>
-<a href="#groups/{{id}}/artists">Show more</a>
+<div class="detail tcenter">
+	<div class="img-wrapper">
+		<img src="{{image_url}}" alt="{{title}}" />
+	</div>
+	<h1>{{title}}</h1>
+	<h2>{{country}}</h2>
+	<p>{{info}}</p>
+	<ul class="users">
+		{{#each users}}
+		<li><a href="#artists/{{id}}"><img src="{{image_url}}" alt="{{username}}" /></a></li>
+		{{/each}}
+	</ul>
+	<a href="#groups/{{id}}/artists" class="button">Show more</a>
+</div>
 <h1>Creations</h1>
 <div class="creations"></div>

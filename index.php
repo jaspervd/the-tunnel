@@ -68,8 +68,8 @@ $app->get('/api/users', function ($request, $response, $args) {
 		$users = $usersDAO->selectAll();
 	}
 	for($i = 0; $i < count($users); $i++){
-    unset($users[$i]['email']); // data mining and all...
-}
+		unset($users[$i]['email']); // data mining and all...
+	}
 return $response->write(json_encode($users))->withHeader('Content-Type', 'application/json');
 });
 
@@ -495,6 +495,10 @@ $app->get('/api/groups/{id}/users', function ($request, $response, $args) {
 	} else {
 		$usersDAO = new UsersDAO();
 		$users = $usersDAO->selectByGroupId($group['id']);
+		for($i = 0; $i < count($users); $i++){
+			unset($users[$i]['password']);
+			unset($users[$i]['email']);
+		}
 		$response = $response->withStatus(200);
 	}
 	return $response->write(json_encode($users))->withHeader('Content-Type', 'application/json');

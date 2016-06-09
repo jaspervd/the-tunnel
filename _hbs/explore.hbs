@@ -1,32 +1,32 @@
-<ul class="filters">
-  <li class="filter_type">
-	   <label for="filter_img"><input type="checkbox" id="filter_img" value="image" class="checkbox" name="type" checked /> Image</label>
-	   <label for="filter_gif"><input type="checkbox" id="filter_gif" value="gif" class="checkbox" name="type" checked /> GIF</label>
-     <input type="checkbox" id="filter_vid" value="video" class="checkbox" name="type" checked />
-      <label for="filter_vid">Video</label>
-  </li>
-  <li>
-    <div class="styled-select">
-	   <select name="filter_month" class="filter_month">
-	   	<option value="" selected disabled hidden>Select month</option>
-	   	<option value="1">January</option>
-	   	<option value="2">February</option>
-	   	<option value="3">March</option>
-	   	<option value="4">April</option>
-	   	<option value="5">May</option>
-	   	<option value="6">June</option>
-	   	<option value="7">July</option>
-	   	<option value="8">August</option>
-	   	<option value="9">September</option>
-	   	<option value="10">October</option>
-	   	<option value="11">November</option>
-	   	<option value="12">December</option>
-	   </select>
-  </div>
-  </li>
-  <li>
-	 @require('_search.hbs')
-  </li>
-</ul>
+<div class="filters">
+	<div class="filter filter_type">
+		<label for="filter_img"><input type="checkbox" id="filter_img" value="image" class="checkbox" name="type" checked /> Image</label>
+		<label for="filter_gif"><input type="checkbox" id="filter_gif" value="gif" class="checkbox" name="type" checked /> GIF</label>
+		<input type="checkbox" id="filter_vid" value="video" class="checkbox" name="type" checked />
+		<label for="filter_vid">Video</label>
+	</div>
+	<div class="filter">
+		<div class="styled-select">
+			<select name="filter_month" class="filter_month">
+				<option value="" selected disabled hidden>Select month</option>
+				<option value="1">January</option>
+				<option value="2">February</option>
+				<option value="3">March</option>
+				<option value="4">April</option>
+				<option value="5">May</option>
+				<option value="6">June</option>
+				<option value="7">July</option>
+				<option value="8">August</option>
+				<option value="9">September</option>
+				<option value="10">October</option>
+				<option value="11">November</option>
+				<option value="12">December</option>
+			</select>
+		</div>
+	</div>
+	<div class="filter">
+		@require('_search.hbs')
+	</div>
+</div>
 <h1>Explore</h1>
 <div class="creations"></div>

@@ -49,7 +49,7 @@ form {
     padding: 0 10px;
   }
 
-  input:not(.button) {
+  input:not(.button), textarea {
     width: 100%;
     border: 1px solid $lightgrey;
     padding: 12px;

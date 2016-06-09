@@ -16,6 +16,7 @@ define([
 
     events: {
       'submit .search': 'filterCollection',
+      'click .icon': 'filterCollection',
       'change .filter_month': 'filterCollection',
       'change .checkbox': 'filterCollection'
     },

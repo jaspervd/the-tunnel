@@ -10,7 +10,7 @@ define([
 ], ($, _, Backbone, Creation, template) => {
   var CreationView = Backbone.View.extend({
     template: template,
-    tagName: 'li',
+    tagName: 'article',
     className: 'creation',
 
     events: {

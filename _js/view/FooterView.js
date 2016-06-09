@@ -17,7 +17,8 @@ define([
       _.bindAll.apply(_, [this].concat(_.functions(this)));
       this.count = 0;
       $.get(`${api}/creations/count`, (data) => {
-        this.count = data; this.render();
+        this.count = data;
+        this.render();
       });
     },
 

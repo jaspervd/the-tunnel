@@ -11,6 +11,8 @@ define([
 ], ($, _, Backbone, template, Creations, CreationView) => {
   var ExploreView = Backbone.View.extend({
     template: template,
+    tagName: 'section',
+    className: 'explore',
 
     events: {
       'submit .search': 'filterCollection',

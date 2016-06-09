@@ -9,9 +9,19 @@ define([
 ], ($, _, Backbone, template) => {
   var NavigationView = Backbone.View.extend({
     template: template,
+    tagName: 'nav',
+
+    events: {
+      'click .navigation a': 'clickHandler'
+    },
 
     initialize: function () {
       _.bindAll.apply(_, [this].concat(_.functions(this)));
+    },
+
+    clickHandler: function(e) {
+      console.log('piemel', e.currentTarget);
+      $(e.currentTarget).addClass('active');
     },
 
     render: function () {

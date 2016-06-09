@@ -1,14 +1,14 @@
+<h1><a href="#featured">The Tunnel</a></h1>
 <ul class="navigation">
-  <li class="tt_header">The Tunnel</li>
-  <li class="addWork"><a href="#creations/add"><span>Upload work</span></a></li>
+  <li><a href="#creations/add" class="addWork">Upload work</a></li>
   <li><a href="#featured">Featured</a></li>
   <li><a href="#explore">Explore</a></li>
   <li><a href="#artists">Artists</a></li>
   <li><a href="#groups">Groups</a></li>
   <li><a href="#info">Info</a></li>
   {{#if id}}
-  <li class="auth"><span><a href="#artists/{{id}}">Profile</a> / <a href="#logout">Logout</a></span></li>
+  <li class="auth"><a href="#artists/{{id}}">Profile</a> / <a href="#logout">Logout</a></li>
   {{else}}
-  <li class="auth"><a href="#login"><span>Login / Register</span></a></li>
+  <li class="auth"><a href="#login">Login</a> / <a href="#register">Register</a></li>
   {{/if}}
 </ul>

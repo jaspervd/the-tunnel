@@ -11,6 +11,8 @@ define([
 ], ($, _, Backbone, template) => {
   var LoginView = Backbone.View.extend({
     template: template,
+    tagName: 'section',
+    className: 'login',
 
     events: {
       'submit form': 'submitHandler'

@@ -4,29 +4,65 @@
 
 html {
   font-size: 62.5%;
+  position: relative;
+  min-height: 100%;
 }
 
 body {
   font-family: $font-content;
   font-size: 1.8rem;
+  margin: 0 0 $footer_height;
 }
 
-.container {
-  width: 90%;
-  margin: 0 auto;
+.left-fig {
+  background-image: url($image_source + 'yellow.png');
+  width: 186px;
+  height: 324px;
+  position: absolute;
+  top: 35%;
+  left: 0;
+  z-index: -1;
+}
+
+.right-fig {
+  background-image: url($image_source + 'pink.png');
+  width: 96px;
+  height: 185px;
+  position: absolute;
+  top: 25%;
+  right: 0;
+  z-index: -1;
 }
 
 /* Navigation */
 
-.navigation {
+nav {
   width: 100%;
+  padding: $padding;
+
+  h1 {
+    font-family: $font-header;
+    text-transform: uppercase;
+    font-size: 4em;
+    margin-right: 32px;
+    display: inline-block;
+
+    a {
+      color: $darkgrey;
+      text-decoration: none;
+    }
+  }
+}
+
+.navigation {
+  width: auto;
   height: 110px;
   margin-top: 10px;
+  display: inline-block;
 
   li {
     display: inline-block;
     margin-left: 16px;
-    vertical-align: middle;
   }
 
   a {
@@ -36,30 +72,19 @@ body {
     text-decoration: none;
     font-size: 1em;
 
-    &:hover {
+    &:hover, &.active {
       color: $pink;
     }
   }
 
-  .tt_header {
-    font-family: $font-header;
-    text-transform: uppercase;
-    font-size: 4em;
-    margin-right: 32px;
-  }
-
   .addWork {
-    span {
-      background: $yellow;
-      padding: 6px;
-    }
+    background: $yellow;
+    padding: 6px;
   }
 
   .auth {
-    span {
-      background: $pink;
-      padding: 6px;
-    }
+    background: $pink;
+    padding: 6px;
 
     a:hover {
       color: $white;
@@ -69,23 +94,19 @@ body {
 
 /* Footer */
 
-.footer {
+.container > footer {
   font-family: 'FFMetaProLight';
-  height: 80px;
   background: $lightgrey;
   vertical-align: middle;
   font-size: 1.2em;
+  padding: $padding;
+  width: 100%;
+  height: $footer_height;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 
-  ul {
-    width: 100%;
-    line-height: 80px;
-  }
-
-  li {
-    display: inline-block;
-  }
-
-  span {
+  .count {
     color: $green;
   }
 
@@ -95,7 +116,7 @@ body {
   }
 }
 
-h1 {
+section > h1 {
   color: $pink;
   text-transform: uppercase;
   font-size: 2em;
@@ -104,29 +125,33 @@ h1 {
   letter-spacing: 2px;
 }
 
-h1:before{
-    content: "";
-    position: absolute;
-    width: 9%;
-    height: 1px;
-    bottom: 0;
-    left: 1%;
-    border-bottom: 1px solid $pink;
+section > h1:before{
+  content: "";
+  position: absolute;
+  width: 9%;
+  height: 1px;
+  bottom: 0;
+  left: 1%;
+  border-bottom: 1px solid $pink;
+}
+
+.likes {
+  font-size: 2em;
+  color: $darkgrey;
+
+  span {
+    margin-top: -3px;
+  }
 }
 
 .heart {
-  position: relative;
-}
+  color: $darkgrey;
+  text-decoration: none;
+  display: inline-block;
 
-.heart::before {
-  content: "";
-  position: absolute;
-  width: 37px;
-  height: 32px;
-  background: url($image-source + 'heart.png');
-  cursor: pointer;
-  bottom: 0;
-  left: 0;
+  &.liked, &:hover {
+    color: $pink;
+  }
 }
 
 h2 {
@@ -137,4 +162,8 @@ h2 {
 
 .error {
   border: 1px solid red;
+}
+
+.container > section, .container > div {
+  padding: 0 $padding;
 }

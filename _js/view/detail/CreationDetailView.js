@@ -11,6 +11,8 @@ define([
   var CreationDetailView = Backbone.View.extend({
     template: template,
     creation_id: null,
+    tagName: 'section',
+    className: 'detailview',
 
     initialize: function (options) {
       this.options = options;

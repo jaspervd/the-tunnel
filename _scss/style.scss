@@ -301,7 +301,7 @@ article.group {
   }
 }
 
-section.group {
+.detailview {
   .detail {
     width: 70%;
     margin: 0 auto;
@@ -311,6 +311,7 @@ section.group {
       height: 150px;
       overflow: hidden;
       margin: 0 auto;
+      border: 2px solid $green;
 
       img {
         min-width: 100%;

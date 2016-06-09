@@ -15,7 +15,7 @@ define([
     template: template,
     group_id: null,
     tagName: 'section',
-    className: 'group',
+    className: 'detailview',
 
     initialize: function (options) {
       this.options = options;

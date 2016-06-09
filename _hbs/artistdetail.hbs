@@ -1,17 +1,22 @@
-<h1>{{artist.username}}</h1>
-<img src="{{artist.image_url}}" alt="{{artist.firstname}}" />
-{{artist.firstname}}
-{{artist.country}}
-{{artist.bio}}
-
-{{#ifEquals artist.id user.id}}
-<a href="#artists/{{artist.id}}/edit">bewerken</a>
-{{/ifEquals}}
-<div class="controls">
-	<a href="#" class="show-works">Works</a>
-	<a href="#" class="show-groups">Groups</a>
-	<a href="#" class="show-likes">Likes</a>
+<div class="detail tcenter">
+	<div class="img-wrapper">
+		<img src="{{artist.image_url}}" alt="{{artist.firstname}}" />
+	</div>
+	<h1>{{artist.username}}</h1>
+	<h2>{{artist.firstname}} {{artist.lastname}}</h2>
+	<h3>{{artist.country}}</h3>
+	<p>{{artist.bio}}</p>
+	{{#ifEquals artist.id user.id}}
+	<a href="#artists/{{artist.id}}/edit" class="button">edit profile</a>
+	{{/ifEquals}}
 </div>
-<div class="works"></div>
-<div class="groups hide"></div>
-<div class="likes hide"></div>
+<div class="controls">
+	<a href="#" class="show-works button">Creations</a>
+	<a href="#" class="show-groups button">Groups</a>
+	<a href="#" class="show-likes button">Likes</a>
+</div>
+<div class="toggable">
+	<div class="works"></div>
+	<div class="groups hidden"></div>
+	<div class="likes hidden"></div>
+</div>

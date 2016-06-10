@@ -302,6 +302,24 @@ article.group {
 }
 
 .detailview {
+
+  .user{
+    color: $green;
+    text-decoration: none;
+  }
+
+  .footerDetail {
+    width: 95%;
+    /*position: absolute;
+    bottom: 0;
+    z-index: 20;*/
+    padding: 12px;
+
+    div {
+      float: right;
+    }
+  }
+
   .detail {
     width: 70%;
     margin: 0 auto;

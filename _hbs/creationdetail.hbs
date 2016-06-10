@@ -1,11 +1,13 @@
 <h1>{{title}}</h1>
 
+<div class="tcenter detail">
+
 {{#ifEquals type "gif"}}
-<img src="{{image_url}}" alt="{{info}}" />
+<img height="500" src="{{image_url}}" alt="{{info}}" />
 {{/ifEquals}}
 
 {{#ifEquals type "image"}}
-<img src="{{image_url}}" alt="{{info}}" />
+<img height="700" src="{{image_url}}" alt="{{info}}" />
 {{/ifEquals}}
 
 {{#ifEquals type "video"}}
@@ -15,4 +17,9 @@
   Your browser does not support the video tag.
 </video>
 {{/ifEquals}}
-{{user.username}} || {{likes}}
+<footer class="footerDetail">
+  <div class="likes"><span>{{likes}}</span> <a href="#" class="heart{{#if alreadyLiked}} liked{{/if}}">&#9825;</a></div>
+  <h2><a class="user" href="/the-tunnel/#artists/{{user.id}}">{{user.username}}</a></h2>
+  <article>{{info}}</article>
+</footer>
+</div>
